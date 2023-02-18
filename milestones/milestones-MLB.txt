@@ -1,0 +1,45 @@
+Project 4 
+Teaching A Machine To Fly A Rocket
+
+
+Description:
+In this project, we will teach a machine to land an EDF rocket. We will accomplish this by training a model to land a virtual rocket safely on the ground. If we are satisfied with our results, we will move onto testing this in the real-world with a physical EDF Rocket.
+
+
+Tasks To Complete:
+        ML environment
+                > Blender Rigid Body World Setup
+                        > Physics Setup
+                > C++ to Python Blender API
+                        > Allow us to use C++ with the Python API
+                > Neuron and Brain setup
+                > Generational System
+                        > Allows us to record the changes from each generation.
+                > Positive Reinforcement Criteria
+                        > EX: “Landed” model will continue to next generation.
+                > Negative Reinforcement Criteria
+                        > EX: “Crashed” model will not continue to next generation.
+        Physical Rocket
+                > Human written control program
+                > PID solver
+                > GPIO Control
+                        > PWM
+                                > Servo Controller
+                        > SPI interfacer
+                                > SD CARD
+                                > Various Sensors
+                        > I2C
+                                > Gyroscopic sensor
+                                > Various Sensors
+                > ML Interfacing
+                        > ML final version should natively be able to control rocket’s attitude.
+                
+Github:
+https://github.com/MasterVols/EDF-Rocket/edit/main/README.md
+
+
+Rubric:
+        A ML model was present: (10/40)
+        The Rocket is controlled based on the code written from a human: (20/40)
+        The Rocket is controlled based on the code written by a machine: (10/20)
+        The Rocket lands: (0/0)
