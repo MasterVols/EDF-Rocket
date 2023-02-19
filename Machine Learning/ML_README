@@ -1,0 +1,5 @@
+We will be using Blender to simulate the physics behind our ML model. The physics solver is relativly nice and can easily be manipulated with a Python API.
+A C++ program will be used so we will need to port it to Python or make a pipeline.
+
+
+https://www.blender.org/
