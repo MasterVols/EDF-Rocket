@@ -32,18 +32,6 @@ int Brain::addNueron(Nueron *nueronToAdd, int column) {
     return true;
 }
 
-/*
-int Brain::removeNueron(Nueron *nueronToRemove) {
-    auto it = std::find(nueronContainer.begin(), nueronContainer.end(), nueronToRemove);
-    if (it != nueronContainer.end()) {
-        nueronContainer.erase(it);
-        return true;
-    }
-    else {
-        return false;                                   // Nueron not found in container
-    }
-}
-*/
 
 int Brain::removeNueronByID(int ID) {
     // Find the nueron with the specified ID
@@ -78,23 +66,35 @@ int Brain::removeNueronByID(int ID) {
 
 
 Brain::Brain(int columnNum, double mutationFactor, int inputNum, int outputNum) {
+    //debug
+    //std::cout << "Created Brain Instance" << std::endl;
     
     columns = columnNum;
     inputs = inputNum;
     outputs = outputNum;
 
+    //cout << "Sizing Vectors... ";
     outputValues.resize(outputs);
     inputValues.resize(inputs);
+    nueronContainer.resize(columns + 1);
+    //sizes each vector to zero:
+    for (auto& innerVector : nueronContainer) {
+        innerVector.resize(0);
+    }
+    //cout << "DONE!" << endl;
 
     // Nueron Population:
+    //cout << "Creating Nueron Population Counter... ";
     int nueronId = 0;
+    //cout << "DONE!" << endl;
 
     // start with outputs
     for (int c = 0; c < outputs; c++) {
         Nueron* newNueron = new Nueron;
         newNueron->ID = nueronId;
-        nueronId++;
+        //cout << "Output Nueron Created, ID=" << newNueron->ID << endl;
 
+        nueronId++;
         nueronContainer[columns].push_back(newNueron);
 
         //NOTE: outputNodes should not have any mutations
@@ -102,7 +102,7 @@ Brain::Brain(int columnNum, double mutationFactor, int inputNum, int outputNum) 
 
     // middle nuerons
     int iteration;
-    for (int i = columns + 1; i >= 0; i--) {
+    for (int i = columns + 1; i > 0; i--) {
         for (int c = 0; c < inputs; c++) {
             Nueron* newNueron = new Nueron;
             newNueron->ID = nueronId;
@@ -113,25 +113,34 @@ Brain::Brain(int columnNum, double mutationFactor, int inputNum, int outputNum) 
             newNueron->outputLevel = (newNueron->outputLevel) + getRandomDoubleInRange((1 - newNueron->hardness + mutationFactor) * 1.0);
             newNueron->hardness = (newNueron->hardness) + getRandomDoubleInRange((1 - newNueron->hardness + mutationFactor) * 1.0);
 
+            //debug:
+            //cout << "Creating Nueron ID=" << newNueron->ID << " Will exist on column=" << i - 1<< endl;
+
             //find things to point to in next column. Odd case if next line is the outputs
             if (i == columns + 1) {
+                //cout << "Making Connections for Nueron ID=" << newNueron->ID << endl;
                 //odd case:
                 for (int j = 0; j < newNueron->amountOfConnections; j++) {
-                    Nueron* pointer = nueronContainer[columns][getRandomIntInRange(0, outputs)];
+                    Nueron* pointer = nueronContainer[columns][getRandomIntInRange(0, outputs - 1)];
                     newNueron->connections.push_back(pointer);
                 }
+                //cout << "Connections made for Nueron ID=" << newNueron->ID << endl;
 
             } else {
+
+                //cout << "Making Connections for Nueron ID=" << newNueron->ID << endl;
+
                 //usual case:
                 for (int j = 0; j < newNueron->amountOfConnections; j++) {
-                    iteration = columns + 1 - i;
-                    Nueron* pointer = nueronContainer[columns - iteration][getRandomIntInRange(0, inputs)];
+                    iteration = columns - i;
+                    Nueron* pointer = nueronContainer[columns - iteration][getRandomIntInRange(0, inputs - 1)];
                     newNueron->connections.push_back(pointer);
                 }
+                //cout << "Connections made for Nueron ID=" << newNueron->ID << endl;
             }
 
             // push into vector
-            nueronContainer[i].push_back(newNueron);
+            nueronContainer[i-1].push_back(newNueron);
 
         }
     }

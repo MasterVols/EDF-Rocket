@@ -36,9 +36,5 @@ int getRandomInt(int max) {
 }
 
 int getRandomIntInRange(int min, int max) {
-    // Seed the random number generator with the current time
-    srand(static_cast<unsigned int>(time(nullptr)));
-
-    // Generate a random number between min and max, and return the result
     return rand() % (max - min + 1) + min;
 }
