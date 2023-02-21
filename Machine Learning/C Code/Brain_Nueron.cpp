@@ -3,32 +3,8 @@
 // 2/19/2023
 
 #include "Brain_Nueron.h"
+#include "Random_Number_Generators.cpp"
 #include <algorithm>
-#include <cstdlib>
-#include <ctime>
-
-
-double getRandomDouble(double max) {
-    // Seed the random number generator with the current time
-    srand(static_cast<unsigned int>(time(nullptr)));
-
-    // Generate a random number between 0 and 1, and scale it by max
-    double random = static_cast<double>(rand()) / RAND_MAX;
-    return random * max;
-}
-
-
-double getRandomDoubleInRange(double range) {
-    // Seed the random number generator with the current time
-    srand(static_cast<unsigned int>(time(nullptr)));
-
-    // Generate a random number between 0 and 1, and scale it to the range [-1, 1]
-    double random = static_cast<double>(rand()) / RAND_MAX;
-    random = 2 * random - 1;
-
-    // Scale the range to [-range, range], and return the result
-    return random * range;
-}
 
 
 int Brain::setColumns(int columnNum) {
@@ -56,7 +32,7 @@ int Brain::addNueron(Nueron *nueronToAdd, int column) {
     return true;
 }
 
-
+/*
 int Brain::removeNueron(Nueron *nueronToRemove) {
     auto it = std::find(nueronContainer.begin(), nueronContainer.end(), nueronToRemove);
     if (it != nueronContainer.end()) {
@@ -67,7 +43,7 @@ int Brain::removeNueron(Nueron *nueronToRemove) {
         return false;                                   // Nueron not found in container
     }
 }
-
+*/
 
 int Brain::removeNueronByID(int ID) {
     // Find the nueron with the specified ID
@@ -125,22 +101,37 @@ Brain::Brain(int columnNum, double mutationFactor, int inputNum, int outputNum) 
     }
 
     // middle nuerons
-    for (int i = 0; i < columns; i++) {
+    int iteration;
+    for (int i = columns + 1; i >= 0; i--) {
         for (int c = 0; c < inputs; c++) {
             Nueron* newNueron = new Nueron;
             newNueron->ID = nueronId;
             nueronId++;
 
             // mutate values 
-            newNueron->triggerLevel = (newNueron->triggerLevel) + getRandomDoubleInRange((1 - newNueron->hardness) * 1.0);
-            newNueron->outputLevel = (newNueron->outputLevel) + getRandomDoubleInRange((1 - newNueron->hardness) * 1.0);
-            newNueron->hardness = (newNueron->hardness) + getRandomDoubleInRange((1 - newNueron->hardness) * 1.0);
+            newNueron->triggerLevel = (newNueron->triggerLevel) + getRandomDoubleInRange((1 - newNueron->hardness + mutationFactor) * 1.0);
+            newNueron->outputLevel = (newNueron->outputLevel) + getRandomDoubleInRange((1 - newNueron->hardness + mutationFactor) * 1.0);
+            newNueron->hardness = (newNueron->hardness) + getRandomDoubleInRange((1 - newNueron->hardness + mutationFactor) * 1.0);
 
-            //find things to point to in next column
-            
+            //find things to point to in next column. Odd case if next line is the outputs
+            if (i == columns + 1) {
+                //odd case:
+                for (int j = 0; j < newNueron->amountOfConnections; j++) {
+                    Nueron* pointer = nueronContainer[columns][getRandomIntInRange(0, outputs)];
+                    newNueron->connections.push_back(pointer);
+                }
+
+            } else {
+                //usual case:
+                for (int j = 0; j < newNueron->amountOfConnections; j++) {
+                    iteration = columns + 1 - i;
+                    Nueron* pointer = nueronContainer[columns - iteration][getRandomIntInRange(0, inputs)];
+                    newNueron->connections.push_back(pointer);
+                }
+            }
 
             // push into vector
-            nueronContainer[columns].push_back(newNueron);
+            nueronContainer[i].push_back(newNueron);
 
         }
     }

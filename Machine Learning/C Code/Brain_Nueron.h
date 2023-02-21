@@ -17,6 +17,7 @@ struct Nueron {
     double outputLevel = 0.1;               //How much stimulation does the Nueron Produce?
     double hardness = 0.2;                  //Refers to the likelyhood of this nueron having it's values changed
     double totaledInputs = 0;
+    int amountOfConnections = 3;
 
 };
 
@@ -31,9 +32,9 @@ class Brain {
         
         Brain();
         Brain(int columnNum, double mutationFactor, int inputNum, int outputNum);
-        ~Brain();
         
-    private:
+    //private:
+    
 
         int columns = -1;                       //columns are given by user where rows are naturally generated from math and inputValues
         int inputs = -1;

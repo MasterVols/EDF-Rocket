@@ -7,7 +7,7 @@ std::wstring getCurrentDirectory()
 std::vector<std::string> listFilesInDirectory() 
 
 
-*/
+
 
 #ifndef File_Checker
 #define File_Checker
@@ -55,3 +55,5 @@ std::vector<std::string> listFilesInDirectory() {
 
 
 #endif
+
+*/
