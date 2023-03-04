@@ -1,5 +1,25 @@
+Alright Reader, here is the directory for all of our brains.
+
+How to create your own:
+* create a folder with your ai name (see firestrike)
+* create a main.cpp that will be called, see below for usability
+
+main.cpp:
+will be compiled using: g++ -o main main.cpp
+
+usage:
+
+    ./main -c generations/genXXX modelXXX                     //creates a new brain model in a folder called generations and subfoler genXXX. The brain model will be named modelXXX. Make the brain output a txt file where there is a "fitness=" in the first line. Having this line refer to nothing will tell the driver script that this file has not yet been tested.
+
+    ./main -r generations/genXXX modelXXX {parameter list}    //runs a given brain model with parameters. trust that the python script will assign it its own fitness to the "fitness=" tag.
+
+    ./main -n generations/genXXX generations/genXXX                     //takes in a directory of brain models from one generation, mutates those into a new generation for further testing.
+
+
+
+NOTES (you can ignore this):
+
 We will be using Blender to simulate the physics behind our ML model. The physics solver is relativly nice and can easily be manipulated with a Python API.
 A C++ program will be used so we will need to port it to Python or make a pipeline.
-
 
 https://www.blender.org/
