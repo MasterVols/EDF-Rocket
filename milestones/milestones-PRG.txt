@@ -1,0 +1,28 @@
+Name: Phillip Graham
+
+Time Logged in Lab: 2 hours
+
+Time Begun Outside of Lab: March 05, 2023 @ 12:00 am
+
+Last Edited: March 05, 2023 @ 1:30 am
+
+Total logged time: 3:30 
+
+RUBRIC ----------------------------------------------------------------------------
+	
+10 points – The whole of the project demonstrates a clear of the material learned up to this point in our cs courses.
+
+10 points – All of the code included in the project compiles and performs a clear function
+
+10 points – All code created for the project at least attempts to reach some specified goal outlined by the whole group.
+
+10 points – The individual member has demonstrated a clear contribution to the larger project
+
+
+TASKS  TO COMPLETE ----------------------------------------------------------------
+
+** This was mostly outlined inside Mathew’s milestones, however, his were mostly made for the group, I will outline some of my personal goals because I operate better with individualized, and specified tasks.
+
+	- Figure out what Matthew has actually made
+	- Create my own brain
+	- Create the files necessary to interpret the outputs of our models (this 	will be done probably later)
