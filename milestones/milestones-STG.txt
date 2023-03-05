@@ -24,7 +24,7 @@ Rubric:
 	Understanding Neural Networks and how to get them up and running: 20/40
 	Figuring out how to make github work without having to google something every time: 10/40
 
-In lieu of comilable code, to demonstrate a newfound working understanding, I've chosen to include a paragraph in my own words detailing how I believe machine learning and neural networks are related and how I think we can use it to make a rocket land itself:
+In lieu of compilable code, to demonstrate a newfound working understanding, I've chosen to include a paragraph in my own words detailing how I believe machine learning and neural networks are related and how I think we can use it to make a rocket land itself:
 
 	Machine learning is the use of algorithms applied to data to predict outcomes. 
 	There are a ton of different algorithms that can be used to predict an outcome, so for this project we will need training data and testing data, both of which will be our manually collected data on landing a rocket. 
