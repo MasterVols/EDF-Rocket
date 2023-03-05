@@ -1,0 +1,37 @@
+Name: Sage Gray
+
+Time: 
+	Machine Learning Tutorials/Introduction videos: 3 Hours
+		https://www.youtube.com/watch?v=Gv9_4yMHFhI&list=PLblh5JKOoLUICTaGLRoHQDuF_7q2GfuJF
+		https://www.ibm.com/topics/machine-learning
+		https://mitsloan.mit.edu/ideas-made-to-matter/machine-learning-explained
+	Neural Network Tutorials/Introduction videos: 3 hours
+		https://www.investopedia.com/terms/n/neuralnetwork.asp
+		https://news.mit.edu/2017/explained-neural-networks-deep-learning-0414
+		https://www.ibm.com/topics/neural-networks
+		https://www.youtube.com/watch?v=aircAruvnKk&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi
+		https://www.youtube.com/watch?v=6M5VXKLf4D4&list=PLEiEAq2VkUUIYQ-mMRAGilfOKyWKpHSip
+	Github tutorials: 1 Hour
+		Tutoring
+		https://res.cloudinary.com/practicaldev/image/fetch/s--Zib71Fgv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/n082uxea33j6zq3mca7u.png
+Github Repository Link: https://github.com/MasterVols/EDF-Rocket
+
+Rubric:
+	Matthew has created a series of his expected group completions, but as I'm starting this project from close to negative knowledge about machine learning and neural networks, my rubric is going to be 
+	focused on catching up with the group's baseline understanding
+
+	Understanding Machine Learning as a concept: 10/40
+	Understanding Neural Networks and how to get them up and running: 20/40
+	Figuring out how to make github work without having to google something every time: 10/40
+
+In lieu of comilable code, to demonstrate a newfound working understanding, I've chosen to include a paragraph in my own words detailing how I believe machine learning and neural networks are related and how I think we can use it to make a rocket land itself:
+
+	Machine learning is the use of algorithms applied to data to predict outcomes. 
+	There are a ton of different algorithms that can be used to predict an outcome, so for this project we will need training data and testing data, both of which will be our manually collected data on landing a rocket. 
+	This data will be separated using cross validation to determine the most accurate method for determining which learning algorithm we'll use. 
+	For this assignment, I think choosing a method with high sensitivity will be more important than one with high specificity. 
+	This means we will choose an algorithm	that favors correctly identifying positives instead of correctly identifying negatives, because we would rather know how to accurately land a rocket than to know how to accurately Not land a rocket.	
+	For the neural network side of things, I think what's going to happen is that we will need to feed in some expected values into our "neuron" functions so that we can change what's happening, in real time, using our machine learning algorithms.
+	Our Neural Network is going to utilize our machine learning data to make accurate inputs to the "neuron" functions in real time to create changes in thrust so as to land a rocket.
+	I personally think this is a daunting task, but I'm eager to put in more time to learning about machine learning and neural networks. 
+	Also, I downloaded Fork to more easily manage the github side of things.
