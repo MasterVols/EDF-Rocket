@@ -33,6 +33,10 @@ Tasks To Complete:
                                 > Various Sensors
                 > ML Interfacing
                         > ML final version should natively be able to control rocket’s attitude.
+                     
+TIME LOG CURRENT (HRS):
+  +3 Research involving nueral networks, evolutionary based training, and c++ file handling
+  +2 Code for handling the creation of a brain, networking nuerons, and file handling
                 
 Github:
 https://github.com/MasterVols/EDF-Rocket/edit/main/README.md
@@ -40,6 +44,7 @@ https://github.com/MasterVols/EDF-Rocket/edit/main/README.md
 
 Rubric:
         A ML model was present: (10/40)
-        The Rocket is controlled based on the code written from a human: (20/40)
-        The Rocket is controlled based on the code written by a machine: (10/20)
+        The Rocket is controlled based on the code written from a human: (10/40)
+        The Rocket is controlled based on the code written by a machine: (10/40)
+        The Rocket shows form of improvment (training worked): (10/40)
         The Rocket lands: (0/0)
