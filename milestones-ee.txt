@@ -1,0 +1,48 @@
+Assignment: Milestones 
+Ethan Eisenhauer 
+3/5/2023
+Github: https://github.com/MasterVols/EDF-Rocket.git
+
+Overview:
+
+    In this project, each member of our team is going to implement their own deep learning data structure (mostly feed forward neural networks to my knowledge)
+    in order to try to land a rocket in a simulation. If we successfully simulate the landing of a rocket, we may launch a real rocket with these controls. 
+
+    Personally, my goal is to make a standard feed forward neural network from scratch. I am implementing a neural_network class and a neuron class
+    to make my structure. I will be implementing the neural network, a training system, and backpropagation as a training algorithm by which to 
+    hopefully fly a rocket.
+
+    For a compilable result for challenge 4, I have a main.cpp which will create the neural_network data structure including:
+    an input layer of neurons, a hidden layer of neurons, an output layer of neurons, and weights and biases.
+
+    *Note: I am struggling with an out of bounds error in my neural_network constructor when trying to create
+    all of the weights and biases in the hidden layer, so I have temporarily commented out that section of code. 
+    When the create_network file is run, the weights and biases of the hidden layer will not be displayed, but it would 
+    look similar to the input and output layer.  
+
+    Compile with: g++ -o create_network create_network.cpp neural_network.cpp neuron.cpp
+
+Time Log:
+
+    3 hours - outlining neural_network and neuron classes as well as a connection class that is no longer necessary
+            - mainly added basic functions that would be necessary and thinking through how the data structure will operate
+    
+    1.5 hours - video series outlining how neural networks operate
+              - 4 videos by 3Blue1Brown on youtube in Neural Network playlist
+              - https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi
+
+    2 hours - began reading book by Micheal Nielson about neural networks
+            - http://neuralnetworksanddeeplearning.com/index.html
+
+
+Rubric (40 points): 
+
+    - 30 points: successfully create a deep learning data structure
+      that attempts to train itself to guide a simulated model rocket
+            - 10 points: create a data structure that has the ability to learn how land a simulated rocket
+            - 10 points: create a methodology in which the data structure will attempt to train itself (simulation/training data)
+            - 10 points: create an algorithm by which the data structure will adjust its settings based on its success or failure during training
+    - 10 points: final submission compiles and attempts to complete the above tasks
+
+
+

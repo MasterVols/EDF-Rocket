@@ -17,9 +17,11 @@ class Neuron {
         double getBias(int);
         int getConnections();
         double getValue();
-        double setWeight(int, double);
-        double setBias(int, double);
-        double setValue(double);
+        void setWeight(int, double);
+        void setBias(int, double);
+        void setValue(double);
+        void createWeight(double);
+        void createBias(double);
 
     private:
 

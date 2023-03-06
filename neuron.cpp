@@ -67,21 +67,33 @@ double Neuron::getValue() {
 
 }
 
-double Neuron::setWeight(int i, double j) {
+void Neuron::setWeight(int i, double j) {
 
     weights.at(i) = j;
 
 } 
 
-double Neuron::setBias(int i, double j) {
+void Neuron::setBias(int i, double j) {
 
     biases.at(i) = j;
 
 } 
 
-double Neuron::setValue(double i) {
+void Neuron::setValue(double i) {
 
     value = i;
 
 } 
 
+void Neuron::createWeight(double i) {
+
+    connections++;
+    weights.push_back(i);
+
+}
+
+void Neuron::createBias(double i) {
+
+    biases.push_back(i);
+
+}
