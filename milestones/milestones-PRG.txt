@@ -1,12 +1,23 @@
 Name: Phillip Graham
 
+TIME LOG-------------------------------------------------------
 Time Logged in Lab: 2 hours
 
 Time Begun Outside of Lab: March 05, 2023 @ 12:00 am
 
-Last Edited: March 05, 2023 @ 1:30 am
+	- March 05, 2023 12:00am to 1:30 am
+		I began analyzing the code already written by
+		Matthew and I began designing the structure of my
+		neuralnetwork
+	- March 05, 2023 5:30 pm to 7:00 pm
+		I began creating the code for my project and
+		started to write some suporting documents
+		to help others understand the structure of
+		network.
 
-Total logged time: 3:30 
+Last Edited: March 05, 2023 @ 5:30 pm
+
+Total logged time: 5:00 
 
 RUBRIC ----------------------------------------------------------------------------
 	
@@ -21,8 +32,12 @@ RUBRIC -------------------------------------------------------------------------
 
 TASKS  TO COMPLETE ----------------------------------------------------------------
 
-** This was mostly outlined inside Mathew’s milestones, however, his were mostly made for the group, I will outline some of my personal goals because I operate better with individualized, and specified tasks.
+** This was mostly outlined inside Mathew’s milestones, however, his were mostly made for the group, I will outline
+some of my personal goals because I operate better with individualized, and specified tasks.
 
 	- Figure out what Matthew has actually made
 	- Create my own brain
-	- Create the files necessary to interpret the outputs of our models (this 	will be done probably later)
+	- Create the files necessary to interpret the outputs of 	our models (this will be done probably later)
+	- Begin the process of developing the rest of the
+	code that we will use to integrate our neural networks
+	into the larger project (this will be done later)
