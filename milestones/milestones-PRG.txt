@@ -19,10 +19,16 @@ Time Begun Outside of Lab: March 05, 2023 @ 12:00 am
 		I started working on some of the logic which
 		will be used inside of my main file, and else
 		where in my implementation
+		
+	- March 27, 2023 9:40 pm to 11:20 pm
+		I Started creating the classes that will be
+		used for my implementation of the ffann. I
+		also researched common implimentations of 
+		feed forward artificial neural networks.
 
 Last Edited: March 05, 2023 @ 5:30 pm
 
-Total logged time: 5:00 
+Total logged time: 6:40 
 
 RUBRIC ----------------------------------------------------------------------------
 	
