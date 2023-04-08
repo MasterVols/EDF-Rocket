@@ -41,12 +41,14 @@ int main (int argc, char* argv[])
 	{
 		string network_description;
 		cout << "Enter the network description in one line: ";
+		getline(cin,network_description);
+		istringstream istr;
+		istr.str(network_description);
 		int num_inputs;
 		int num_outputs;
 		int num_hidden;
-		cin >> num_inputs >> num_outputs >> num_hidden;
-		getline(cin,network_description);
-		ffann network (num_inputs,num_outputs,num_hidden,network_description);
+		istr >> num_inputs >> num_outputs >> num_hidden;
+		ffann network (num_inputs,num_outputs,num_hidden,istr.str());
 		bool con_loop = true;
 		while (con_loop)
 		{

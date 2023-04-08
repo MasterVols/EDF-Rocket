@@ -15,7 +15,6 @@ using namespace std;
 #include <vector>
 #include "ffann.hpp"
 #include <sstream>
-#include <iostream>
 
 synapse::synapse(int weight_param)
 {
@@ -72,13 +71,12 @@ bool neuron::set_and_fire(int state_param)
 
 ffann::ffann (int num_input_param,int num_output_param,int num_hidden_layer_param,string network_param)
 {
-	cout << "Begin to generate ffann\n";
-    num_input = num_input_param;
-	num_output = num_output_param;
-    num_hidden_layer = num_hidden_layer_param;
-    num_neurons = num_input + num_output + (num_input + num_output) * num_hidden_layer_param;
-	network.resize(num_neurons);
-	generate_network(network_param);
+        num_input = num_input_param;
+		num_output = num_output_param;
+        num_hidden_layer = num_hidden_layer_param;
+        num_neurons = num_input + num_output + (num_input + num_output) * num_hidden_layer_param;
+		network.resize(num_neurons);
+		generate_network(network_param);
 }
 
 ffann::~ffann ()
@@ -86,7 +84,6 @@ ffann::~ffann ()
 	for (size_t i = 0; i < num_input; i++) delete network[i];
 }
 
-// TODO: Identify the error causing this to fail
 void ffann::generate_network (string net_param)
 {
 	istringstream istr;

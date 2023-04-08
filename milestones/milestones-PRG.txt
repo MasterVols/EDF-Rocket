@@ -26,9 +26,14 @@ Time Begun Outside of Lab: March 05, 2023 @ 12:00 am
 		also researched common implimentations of 
 		feed forward artificial neural networks.
 
-Last Edited: March 05, 2023 @ 5:30 pm
+	- April 08, 2023 1:40 pm to 5:10 pm
+		I finished creating funcitons for my neural
+		network. There is still an unidentified error
+		in my generate_network funciton
 
-Total logged time: 6:40 
+Last Edited: April, 08, 2023 @ 5:10 pm
+
+Total logged time: 10:00 
 
 RUBRIC ----------------------------------------------------------------------------
 	
