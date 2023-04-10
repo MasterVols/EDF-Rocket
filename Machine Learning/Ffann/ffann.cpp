@@ -98,7 +98,8 @@ void ffann::generate_network (string net_param)
 			int threshold;
 			istr >> threshold;
 			neuron* n_ptr = new neuron (threshold);
-			for (int j = 0; j < num_input + num_output; j++)
+			n_ptr->outputs.resize(num_input + num_output);
+			for (int j = 0; j > num_input + num_output; j++)
 			{
 				int weight;
 				istr >> weight;
@@ -129,6 +130,7 @@ void ffann::generate_network (string net_param)
 
 			if (i + num_input + num_output < (num_neurons - num_output))
 			{
+				n_ptr->outputs.resize(num_input + num_output);
 				for (int j = 0; j < num_input + num_output; j++)
 				{
 					int weight;
@@ -139,6 +141,7 @@ void ffann::generate_network (string net_param)
 			}
 			else
 			{
+				n_ptr->outputs.resize(num_output);
 				for (int j = 0; j < num_output; j++)
 				{
 					int weight;
@@ -147,8 +150,9 @@ void ffann::generate_network (string net_param)
 					n_ptr->outputs[j] = s_ptr;
 				}
 			}
+			cout << "Made it to the end of the second\n";
 		}
-		else // If we are reading in an output layer
+		else if (false) // If we are reading in an output layer
 		{
 			int threshold;
 			istr >> threshold;

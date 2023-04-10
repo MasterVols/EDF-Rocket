@@ -31,6 +31,8 @@ Time Begun Outside of Lab: March 05, 2023 @ 12:00 am
 		network. There is still an unidentified error
 		in my generate_network funciton
 
+	- April 10, 2023 6:00 pm to
+
 Last Edited: April, 08, 2023 @ 5:10 pm
 
 Total logged time: 10:00 
