@@ -43,6 +43,13 @@
         "xlocinfo": "cpp",
         "xlocnum": "cpp",
         "ctime": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "*.tcc": "cpp",
+        "clocale": "cpp",
+        "cwctype": "cpp",
+        "fstream": "cpp",
+        "numbers": "cpp",
+        "sstream": "cpp",
+        "string_view": "cpp"
     }
 }
