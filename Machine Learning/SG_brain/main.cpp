@@ -3,8 +3,13 @@
  *	3/27: 1 hour, learning matrix rotations
  *	3/28: 2 hours, creating matrix function
  *	3/29: 2 hours, editing matrix function, writing the cin function
+ *	4/16: 1 hour finishing Matrix function
+ *	4/18: 2 hours calculating final requirement though matrices
  * https://mathworld.wolfram.com/EulerAngles.html
+ *  https://stackoverflow.com/questions/1996957/conversion-euler-to-matrix-and-matrix-to-euler
+ *  https://www.gatevidyalay.com/3d-rotation-in-computer-graphics-definition-examples/
  * Right now I'm getting the euler values into a matrix, I will need to multiply it by a matrix to get the rocket where I want it to be, and then use that to determine where the thruster needs to be positioned so I can thrust at some value.
+ * Mayhaps use a map to hold the values every input so they can be referenced easily by the neural networks`
  * General Rotation A = BCD
  *	Where: D =	cos phi		sin phi		0
  *				-sin phi	cos phi		0
@@ -27,7 +32,7 @@
 #include <algorithm>
 #include <vector>
 using namespace std;
-int PI = 3.141592;
+float PI = 3.141592;
 /* eul_to_mat3
  * Purpose: convert given euler rotations into a matrix, using the pitch, roll, yaw convention
  * Parameters:
@@ -37,47 +42,50 @@ int PI = 3.141592;
  * Post-condition: matrix contains sin/cos decimals of euler notation, ready to be multiplied
  * Returns: Nothing
  */
+// looking for 0, 0, 0
+void eul_to_mat( float (&mat)[3][3], float eul[3] ) {
+		float cosP, cosR, cosY, sinP, sinR, sinY, coscos, cossin, sincos, sinsin;
 
-void eul_to_mat( vector<float> (&mat)(9), vector<float> eul[3] ) {
-		double cosi, cosj, cosh, sini, sinj, sinh, coscos, cossin, sincos, sinsin;
+		cosP = cosf( eul[0] );//*( 180/PI ); //Pitch
+		sinP = sinf( eul[0] );//*( 180/PI ); //Pitch
+		cosR = cosf( eul[1] );//*( 180/PI ); //Roll
+		sinR = sinf( eul[1] );//*( 180/PI ); //Roll
+		cosY = cosf( eul[2] );//*( 180/PI ); //Yaw
+		sinY = sinf( eul[2] );//*( 180/PI ); //Yaw
+		coscos = cosP * cosY;
+		cossin = cosP * sinY;
+		sincos = sinP * cosY;
+		sinsin = sinP * sinY;
 
-		cosi = cos( eul[0] )*( 180/PI );
-		cosj = cos( eul[1] )*( 180/PI );
-		cosh = cos( eul[2] )*( 180/PI );
-		sini = sin( eul[0] )*( 180/PI );
-		sinj = sin( eul[1] )*( 180/PI );
-		sinh = sin( eul[2] )*( 180/PI );
-		coscos = cosi * cosh;
-		cossin = cosi * sinh;
-		sincos = sini * cosh;
-		sinsin = sini * sinh;
-
-		mat[0][0] = ( float )( cosj * cosh );
-		mat[1][0] = ( float )( sinj * sincos - cossin );
-		mat[2][0] = ( float )( sinj * coscos + sinsin);
-		mat[0][1] = ( float )( cosj * sinh );
-		mat[1][1] = ( float )( sinj * sinsin + coscos );
-		mat[2][1] = ( float )( sinj * cossin - sincos );
-		mat[0][2] = ( float )( -sinj );
-		mat[1][2] = ( float )( cosj * sini );
-		mat[2][2] = ( float )( cosj * cosi );
+		mat[0][0] = ( coscos );
+		mat[1][0] = ( cossin );
+		mat[2][0] = (-sinP );
+		mat[0][1] = ( (sinR*sincos) - (cosR*sinY) );
+		mat[1][1] = ( (sinR*sinsin) + (cosR*cosY) );
+		mat[2][1] = ( sinR*cosP );
+		mat[0][2] = ( (cosR*sincos) + (sinR*sinY));
+		mat[1][2] = ( (cosR*sinsin) - (sinR*cosY) );
+		mat[2][2] = ( cosR*cosP );
 
 }
 
 int main(){
-	vector<float> eul(3);
-	vector<float> rotation(9);
-	fill ( rotation.begin(), rotation.end(), 0 );
+	float eul[3];
+	float rotation[3][3];
 	float euler = 0;
-	while (cin >> euler){
-		eul.push_back(euler);
-	}
+	float i, j, k;
+	cin >> i >> j >> k;
+	eul[0] = i*PI/180;
+	eul[1] = j*PI/180;
+	eul[2] = k*PI/180;
 	eul_to_mat( rotation, eul );
-	cout << "Rotation Matrix: ";
+	cout << "Rotation Matrix: " << endl;
 	for ( int i = 0; i < 3; i++ ){
 		for ( int j = 0; j < 3; j++ ){
 			cout << "| " << rotation[i][j] << " " ;
-			if ( j == 3 ) {cout << endl;}
+			if ( j == 2 ) {
+				cout << endl;
+			}
 		}
 	}
 	return 0;
