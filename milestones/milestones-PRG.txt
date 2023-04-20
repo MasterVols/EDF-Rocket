@@ -19,10 +19,27 @@ Time Begun Outside of Lab: March 05, 2023 @ 12:00 am
 		I started working on some of the logic which
 		will be used inside of my main file, and else
 		where in my implementation
+		
+	- March 27, 2023 9:40 pm to 11:20 pm
+		I Started creating the classes that will be
+		used for my implementation of the ffann. I
+		also researched common implimentations of 
+		feed forward artificial neural networks.
 
-Last Edited: March 05, 2023 @ 5:30 pm
+	- April 08, 2023 1:40 pm to 5:10 pm
+		I finished creating funcitons for my neural
+		network. There is still an unidentified error
+		in my generate_network funciton
 
-Total logged time: 5:00 
+	- April 10, 2023 8:00 pm to April 11, 2023 12:00 am
+		I finished the neural network. The final
+		version uses only one class. I also created
+		a helper funtio to print out the network
+		so it can be more easily 
+
+Last Edited: April, 11, 2023 @ 12:00 am
+
+Total logged time: 14:00 
 
 RUBRIC ----------------------------------------------------------------------------
 	
@@ -49,7 +66,6 @@ TASKS  TO COMPLETE -------------------------------------------------------------
    with individualized, and specified tasks.
 
 	- Figure out what Matthew has actually made
-	- Create my own brain
 	- Create the files necessary to interpret the outputs
 	  of our models (this will be done probably later)
 	- Begin the process of developing the rest of the
