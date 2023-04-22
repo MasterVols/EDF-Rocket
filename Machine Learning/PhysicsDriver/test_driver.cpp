@@ -5,8 +5,6 @@ executable = "path/to/test_driver"
 */
 
 
-
-
 #include <iostream>
 #include <iomanip>
 #include <cstdlib>
@@ -26,9 +24,9 @@ int main() {
     double vel_x, vel_y, vel_z;
 
     while (std::cin >> loc_x >> loc_y >> loc_z >> rot_x >> rot_y >> rot_z >> vel_x >> vel_y >> vel_z) {
-        double thruster_x = random_double(-M_PI, M_PI);
-        double thruster_y = random_double(-M_PI, M_PI);
-        double thrust = random_double(0, 1);
+        double thruster_x = random_double(-90, 90);
+        double thruster_y = random_double(-90, 90);
+        double thrust = random_double(0, 100);
         std::cout << std::fixed << std::setprecision(6) << thruster_x << " " << thruster_y << " " << thrust << std::endl;
     }
 
