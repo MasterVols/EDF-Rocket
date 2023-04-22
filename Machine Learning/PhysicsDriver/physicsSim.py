@@ -89,7 +89,7 @@ def main():
     thrust_rotation = (0, 0)
 
     with open(report_filename, "w") as report_file:
-        while position[2] > 0:
+        while position[2] > 0 and position[2] < 300:
             # Send the current state to the C++ neural network program
             input_data = ' '.join(map(str, position + rotation + velocity + list(thrust_rotation)))
             output_data = subprocess.check_output([Executable], input=input_data, text=True).strip()
