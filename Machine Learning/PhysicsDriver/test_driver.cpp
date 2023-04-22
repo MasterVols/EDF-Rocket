@@ -24,9 +24,9 @@ int main() {
     double vel_x, vel_y, vel_z;
 
     while (std::cin >> loc_x >> loc_y >> loc_z >> rot_x >> rot_y >> rot_z >> vel_x >> vel_y >> vel_z) {
-        double thruster_x = random_double(-90, 90);
-        double thruster_y = random_double(-90, 90);
-        double thrust = random_double(0, 100);
+        double thruster_x = random_double(-10, 10);
+        double thruster_y = random_double(-10, 10);
+        double thrust = random_double(0, 1000);
         std::cout << std::fixed << std::setprecision(6) << thruster_x << " " << thruster_y << " " << thrust << std::endl;
     }
 
