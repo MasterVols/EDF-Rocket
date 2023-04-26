@@ -6,12 +6,17 @@
 
 #include <iostream>
 #include <fstream>
-#include <random>
-
+#include <ctime>
+#include <math.h>
+#include <stdio.h>
+#include <bits/stdc++.h>
 using namespace std;
+
+float ranf(float,float);
 
 int main()
 {
+    srand(time(0));
     int num_in, num_out, num_hidden, num_per_hidden;
     float thresh_min, thresh_max, weight_min, weight_max;
     cout << "Enter the number of inputs: ";
@@ -31,27 +36,28 @@ int main()
     cout << "Enter the maximum value for the weight: ";
     cin >> weight_max;
 
-    random_device rd;
-    mt19937 gen(rd());
-    uniform_int_distribution<> tdist(thresh_min, thresh_max);
-    uniform_real_distribution<> wdist(weight_min,weight_max);
-
     std::ofstream outputFile("network.txt");
     if (outputFile.is_open()) {
         outputFile << num_in << " " << num_out << " " << num_hidden << " " << num_per_hidden;
         for (int i = 0; i < num_in; i++)
         {
-            outputFile << " " << tdist(gen);
-            for (int j = 0; j < num_per_hidden; j++) outputFile << " " << wdist(gen);
+            outputFile << " " << ranf(thresh_min,thresh_max);
+            for (int j = 0; j < num_per_hidden; j++) outputFile << " " << ranf(weight_min,weight_max);
         }
-        for (int i = 0; i < num_hidden - 1; i++)
+        for (int i = 0; i < (num_hidden - 1) * num_per_hidden; i++)
         {
-            outputFile << " " << tdist(gen);
-            for (int j = 0; j < num_per_hidden; j++) outputFile << " " << wdist(gen);
+            outputFile << " " << ranf(thresh_min,thresh_max);;
+            for (int j = 0; j < num_per_hidden; j++) outputFile << " " << ranf(weight_min,weight_max);
         }
-        outputFile << " " << tdist(gen);
-        for (int i = 0; i < num_out; i++) outputFile << " " << wdist(gen);
-        for (int i = 0; i < num_out; i++) outputFile << " " << tdist(gen);
+        for (int i = 0; i < num_per_hidden; i++)
+        {
+            outputFile << " " << ranf(thresh_min,thresh_max);
+            for (int j = 0;j<num_out;j++) outputFile << " " << ranf(weight_min,weight_max);
+        }
+        for (int i = 0; i < num_out; i++)
+        {
+            outputFile << " " << ranf(thresh_min,thresh_max);
+        }
         outputFile.close();
         cout << "Random numbers generated and written to network.txt" << std::endl;
     }
@@ -61,4 +67,10 @@ int main()
     }
 
     return 0;
+}
+
+float ranf(float min,float max)
+{
+    float i = (float)(rand()) / (float)(RAND_MAX);
+    return min + (fmod(i,max-min));
 }
