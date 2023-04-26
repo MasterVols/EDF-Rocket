@@ -4,6 +4,11 @@ import math
 import time
 import os
 
+#
+#   Use python 3.8.10
+#   python --version to check
+#
+
 # MATTHEW's
 #Executable = "C:\\Users\\Matth\\OneDrive\\Documents\\GitHub\\EDF-Rocket\\Machine Learning\\PhysicsDriver\\test_driver.exe"
 #report_folder = "C:\\Users\\Matth\\OneDrive\\Documents\\GitHub\\EDF-Rocket\\Machine Learning\\PhysicsDriver\\reports"
