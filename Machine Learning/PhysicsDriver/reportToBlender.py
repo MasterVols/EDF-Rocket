@@ -1,11 +1,12 @@
 import os
-import bpy
 import math
+import bpy
+
 
 # set path to reports folder 
 # Do not delete other peoples Path
 report_folder = "C:\\Users\\Matth\\OneDrive\\Documents\\GitHub\\EDF-Rocket\\Machine Learning\\PhysicsDriver\\reports"
-
+#report_folder = "C:\\Users\\reed2\\OneDrive\\Desktop\\Github Repos\\EDF-Rocket\Machine Learning\\Ffann\\ffann-reports"
 
 
 

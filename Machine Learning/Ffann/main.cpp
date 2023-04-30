@@ -109,6 +109,7 @@ int main ()
             nv[i].state = 0;
         }
     }
+    return 0;
 }
 
 neuron::neuron(float t,vector<float> v)
