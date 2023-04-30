@@ -19,6 +19,7 @@ int main()
     srand(time(0));
     int num_in, num_out, num_hidden, num_per_hidden;
     float thresh_min, thresh_max, weight_min, weight_max;
+    /*
     cout << "Enter the number of inputs: ";
     cin >> num_in;
     cout << "Enter the number of outputs: ";
@@ -35,7 +36,15 @@ int main()
     cin >> weight_min;
     cout << "Enter the maximum value for the weight: ";
     cin >> weight_max;
-
+    */
+    num_in = 9;
+    num_out = 3;
+    num_hidden = 3;
+    num_per_hidden = 9;
+    thresh_min = -2;
+    thresh_max = 0.2;
+    weight_min = -.9;
+    weight_max = .8;
     std::ofstream outputFile("network.txt");
     if (outputFile.is_open()) {
         outputFile << num_in << " " << num_out << " " << num_hidden << " " << num_per_hidden;

@@ -19,7 +19,9 @@ struct neuron
     vector<float> weights;
 };
 
-const bool print_mode = true;
+void print_net(vector<neuron>);
+
+const bool print_mode = false;
 const bool enable_thresholds = false;
 
 int main ()
@@ -74,40 +76,33 @@ int main ()
     {
         istringstream ist;
         ist.str(input);
+        for (unsigned int i = 0; i < nv.size(); i++) nv[i].state = 0;
         for (int i = 0; i < num_input; i++) ist >> nv[i].state;
+        for (int i = 3; i < 6; i++) nv[i].state = nv[i].state/360;
         int i = 0;
         for (i=i;i < num_input; i++)
         {
-            if ((nv[i].state * nv[i].state) < (nv[i].threshold * nv[i].threshold))
-            {
-                nv[i].state = 0;
-            }
+            if (nv[i].state < nv[i].threshold) continue;
             for (unsigned int j = 0; j < nv[i].weights.size(); j++)
             {
-                nv[num_input + j].state += nv[i].state * nv[i].weights[j];
+                nv[num_input + j].state += (nv[i].state * nv[i].weights[j]) / (num_input);
             }
-            nv[i].state = 0;
         }
         for (i=i;i < num_input + (num_hidden * num_per_hidden); i++)
         {
-            if ((nv[i].state * nv[i].state) < (nv[i].threshold * nv[i].threshold))
-            {
-                nv[i].state = 0;
-            }
+            if ((nv[i].state) < (nv[i].threshold)) continue;
             for (unsigned int j = 0; j < nv[i].weights.size(); j++)
             {
-                nv[i+num_per_hidden+j].state += nv[i].state * nv[i].weights[j];
+                nv[(i - (i%num_per_hidden))+num_per_hidden+j].state += (nv[i].state * nv[i].weights[j]) / (num_per_hidden);
             }
-            nv[i].state = 0;
         }
-        cout << nv[i].state;
-        nv[i].state = 0;
+        cout << nv[i].state * 360;
         i++;
-        for (i=i;i < num_input + num_output + (num_hidden * num_per_hidden);i++)
-        {
-            cout << " " << nv[i].state;
-            nv[i].state = 0;
-        }
+        cout << " " << nv[i].state * 360;
+        i++;
+        cout << " " << nv[i].state * 2;
+        cout << endl;
+        if (print_mode) print_net(nv);
     }
     return 0;
 }
@@ -117,4 +112,14 @@ neuron::neuron(float t,vector<float> v)
     threshold = t;
     weights = v;
     state = 0;
+}
+
+void print_net (vector<neuron> nv)
+{
+    for (unsigned int i = 0; i < nv.size(); i++)
+    {
+        cout << "[" << i << "] " << "state:" << nv[i].state << " thresh:" << nv[i].threshold;
+        for (unsigned int j = 0; j < nv[i].weights.size(); j++) cout << " weight" << j << ":" << nv[i].weights[j];
+        cout << endl;
+    }
 }

@@ -37,7 +37,13 @@ Time Begun Outside of Lab: March 05, 2023 @ 12:00 am
 		a helper funtio to print out the network
 		so it can be more easily 
 
-Last Edited: April, 11, 2023 @ 12:00 am
+	- April, 11, 2023 12:00 am to 4:00 am
+		Continued work on the network, primarily
+		focused on updating it so it can handle more
+		neurons without exceeding c++ ability to handle
+		large strings etc.
+
+	- April, 30, 2023 1:30 pm to 
 
 Total logged time: 14:00 
 
