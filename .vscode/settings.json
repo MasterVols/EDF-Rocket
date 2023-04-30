@@ -43,6 +43,21 @@
         "xlocinfo": "cpp",
         "xlocnum": "cpp",
         "ctime": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "array": "cpp",
+        "bit": "cpp",
+        "*.tcc": "cpp",
+        "clocale": "cpp",
+        "cstdarg": "cpp",
+        "cwctype": "cpp",
+        "deque": "cpp",
+        "unordered_map": "cpp",
+        "functional": "cpp",
+        "memory_resource": "cpp",
+        "numeric": "cpp",
+        "optional": "cpp",
+        "string_view": "cpp",
+        "fstream": "cpp",
+        "sstream": "cpp"
     }
 }

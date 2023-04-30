@@ -1,139 +1,97 @@
 #include "neural_network.h"
+#include "time.h"
 #include <stdlib.h>
-#include <time.h>
 #include <iostream>
 
 using namespace std;
 
-Neural_Network::Neural_Network(int in, int out, vector<int> hidden) {
+Neural_Network::Neural_Network(int input_layer_size, vector<int> hidden_layer_sizes, int output_layer_size) {
 
-    // create input layer
-    for(int i = 0; i < in; i++) {
+    cout << "Starting Constructor" << endl;
 
-        input_layer.push_back(Neuron());
+    num_hidden_layers = hidden_layer_sizes.size();
+    num_layers = num_hidden_layers + 2;
 
-    }
+    // fill layer_sizes vector
 
-    // create output layer
-    for(int i = 0; i < out; i++) {
-
-        output_layer.push_back(Neuron());
-
-    }
-
-    // create hidden layer
-    for(int i = 0; i < hidden.size(); i++) {
-
-        vector<Neuron> vec;
-        hidden_layer.push_back(vec);
-
-        for(int j = 0; j < hidden.at(i); j++) {
-
-            hidden_layer.at(i).push_back(Neuron());
-
-        }
-
-    }
-
-    int hidden_layers = hidden.size();
-
-
-    // create weights and biases
+    layer_sizes.push_back(input_layer_size);
     
-    // randomize rand() seed
-    srand(time(NULL));
+    for(long unsigned int i = 0; i < hidden_layer_sizes.size(); i++) {
 
-    for(int i = 0; i < input_layer.size(); i++) {
+        layer_sizes.push_back(hidden_layer_sizes.at(i));
 
-        for(int j = 0; j < hidden_layer.at(0).size(); j++) {
-        
-            input_layer.at(i).createWeight(rand());
-            input_layer.at(i).createBias(rand());
+    }
+
+    cout << "Filled Layer Sizes" << endl;
+
+    layer_sizes.push_back(output_layer_size);
+
+    // properly size activations vector
+
+    activations.resize(num_layers);
+
+    for(int i = 0; i < num_layers; i++) {
+
+        activations.at(i).resize(layer_sizes.at(i));
+
+    }
+
+    cout << "Filled Activations" << endl;
+
+    // properly size weights vector
+
+    weights.resize(num_layers - 1);
+
+    for(int i = 1; i < num_layers; i++) {
+
+        weights.at(i - 1).resize(layer_sizes.at(i));
+
+        for(long unsigned int j = 0; j < weights.at(i-1).size(); j++) {
+
+            weights.at(i - 1).at(j).resize(layer_sizes.at(i - 1));
 
         }
 
     }
 
-    cout << "created input layer weights/biases" << endl;
+    cout << "Filled Weights" << endl;
 
-    cout << hidden_layer.size() << endl;
-    cout << hidden_layer.at(0).size() << endl;
-    cout << hidden_layer.at(1).size() << endl;
-    cout << hidden_layer.at(2).size() << endl << endl;
-    
-/*
-    for(int i = 0; i < hidden_layer.size()-1; i++) {
+    // properly size biases vector
 
-        cout << i;
+    biases.resize(num_layers - 1);
 
-        for(int j = 0; j < hidden_layer.at(i).size(); i++) {
+    for(int i = 1; i < num_layers; i++) {
 
-            cout << j;
-
-            for(int k = 0; k < hidden_layer.at(i+1).size(); k++) {
-
-                cout << k;
-
-                hidden_layer.at(i).at(j).createWeight(rand());
-                hidden_layer.at(i).at(j).createBias(rand());
-
-            }
-
-        }
-
-    }
-*/
-    cout << "created hidden layer weights/biases" << endl;
-
-    for(int i = 0; i < hidden_layer.at(hidden_layer.size()-1).size(); i++) {
-
-        for(int j = 0; j < output_layer.size(); j++) {
-
-            hidden_layer.at(hidden_layer.size()-1).at(i).createWeight(rand());
-            hidden_layer.at(hidden_layer.size()-1).at(i).createBias(rand());
-
-        }
+        biases.at(i - 1).resize(layer_sizes.at(i));
 
     }
 
-    cout << "created ouptut layer weights/biases" << endl;
+    cout << "Filled Biases" << endl;
 
+    cout << "Ending Constructor" << endl;
 
-}
+};
 
-// deconstructor not done
-Neural_Network::~Neural_Network() {
-
-
-
-}
+Neural_Network::~Neural_Network() {};
 
 void Neural_Network::randomize() {
 
+    cout << "Randomizing" << endl;
+
     // randomize rand() seed
     srand(time(NULL));
 
-    // randomize weights and biases in input layer
-    for(int i = 0; i < input_layer.size(); i++) {
+    double r;
 
-        for(int j = 0; j < input_layer.at(i).getConnections(); j++) {
-            
-            input_layer.at(i).setBias(j, rand());
-            input_layer.at(i).setWeight(j, rand());
+    // randomize weights
+    for(long unsigned int i = 0; i < weights.size(); i++) {
 
-        }
+        for(long unsigned int j = 0; j < weights.at(i).size(); j++) {
 
-    }
+            for(long unsigned int k = 0; k < weights.at(i).at(j).size(); k++) {
 
-    // randomize weights and biases in hidden layers
-    for(int i = 0; i < hidden_layer.size(); i++) {
-
-        for(int j = 0; j < hidden_layer.at(i).size(); j++) {
-
-            for(int k = 0; k < hidden_layer.at(i).at(j).getConnections(); k++) {
-
-                hidden_layer.at(i).at(j).setBias(k, rand());
-                hidden_layer.at(i).at(j).setWeight(k, rand());
+                r = rand();
+                weights.at(i).at(j).at(k) = r / RAND_MAX;
 
             }
 
@@ -141,46 +99,140 @@ void Neural_Network::randomize() {
 
     }
 
-}
+    // randomize biases
+    for(long unsigned int i = 0; i < biases.size(); i++) {
 
-void Neural_Network::print() {
+        for(long unsigned int j = 0; j < biases.at(i).size(); j++) {
 
-    // Print Input Layer
-
-    cout << "Input Layer:" << endl;
-
-    for(int i = 0; i < input_layer.size(); i++) {
-
-        cout << "Weights" << endl;
-        input_layer.at(i).printWeights();
-
-        cout << "Biases" << endl;
-        input_layer.at(i).printBiases();
-
-    }
-
-    // Print Hidden Layer
-
-    cout << "Hidden Layer:" << endl;
-
-    for(int i = 0; i < hidden_layer.size(); i++) {
-
-        for(int j = 0; j < hidden_layer.at(i).size(); j++) {
-
-            cout << "Weights" << endl;
-            hidden_layer.at(i).at(j).printWeights();
-
-            cout << "Biases" << endl;
-            hidden_layer.at(i).at(j).printBiases();
+            r = rand();
+            biases.at(i).at(j) = r / RAND_MAX;
 
         }
 
     }
 
-}
+};
 
-void Neural_Network::calculate() {
+void Neural_Network::train() {};
 
-    
+void Neural_Network::backpropagate() {};
 
-}
+double Neural_Network::ReLU(double z) {
+
+    return 1;
+
+};
+
+void Neural_Network::print() {
+
+    // print basic network info
+
+    cout << endl << endl << endl;
+
+    cout << "Printing out Neural Network" << endl << endl;
+
+    cout << "Number of Layers: " << num_layers << endl << endl;
+
+    for(int i = 0; i < num_layers; i++) {
+
+        if(i == 0) {
+
+            cout << "Input Layer Size: " << layer_sizes.at(0) << endl;
+
+        } else if(i == num_layers - 1) {
+
+            cout << "Output Layer Size: " << layer_sizes.at(num_layers - 1) << endl;
+
+        } else {
+
+            cout << "Hidden Layer (" << i << ") Size: " << layer_sizes.at(i) << endl;
+
+        }
+
+    }
+
+    // print weights
+
+    cout << endl << "Weights" << endl << endl;
+
+    for(long unsigned int i = 0; i < weights.size(); i++) {
+
+        for(long unsigned int j = 0; j < weights.at(i).size(); j++) {
+
+            for(long unsigned int k = 0; k < weights.at(i).at(j).size(); k++) {
+
+                cout << "(" << i << ")(" << j << ")(" << k << "): " << weights.at(i).at(j).at(k) << endl;
+
+            }
+
+        }
+
+    }
+
+    // print biases
+
+    cout << endl << "Biases" << endl << endl;
+
+    for(long unsigned int i = 0; i < biases.size(); i++) {
+
+        for(long unsigned int j = 0; j < biases.at(i).size(); j++) {
+
+            cout << "(" << i << ")(" << j << "): " << biases.at(i).at(j) << endl;
+
+        }
+
+    }
+
+    cout << endl << endl;
+
+};
+
+vector<double> Neural_Network::compute(vector<double> inputs) {
+
+    cout << "Computing" << endl;
+
+    double weighted_sum;
+
+    for(int i = 0; i < num_layers; i++) {
+
+        cout << "i: " << i << endl;
+
+        // input layer
+        if(i == 0) {
+
+            for(int j = 0; j < layer_sizes.at(i); j++) {
+
+                activations.at(i).at(j) == ReLU(inputs.at(j));
+
+            }
+
+        // hidden layers and output layer
+        } else {
+
+            for(int j = 0; j < layer_sizes.at(i); j++) {
+
+                cout << "j: " << j << endl;
+
+                weighted_sum = 0; 
+
+                for(int k = 0; k < layer_sizes.at(i - 1); k++) {
+                    
+                    cout << "k: " << k << endl;
+
+                    weighted_sum += activations.at(i - 1).at(k) * weights.at(i - 1).at(j).at(k);
+
+                }
+
+                activations.at(i).at(j) = ReLU(weighted_sum - biases.at(i - 1).at(j));
+
+            }
+
+        }
+
+    }
+
+    return activations.at(num_layers - 1);
+
+    cout << "Done Computing" << endl;
+
+};

@@ -1,33 +1,31 @@
 #ifndef NEURAL_NETWORK
 #define NEURAL_NETWORK
 
-#include "neuron.h"
-#include <vector>
+#include <vector> 
 
 class Neural_Network {
 
     public:
 
-        Neural_Network(int, int, std::vector<int>);
-        ~Neural_Network();
+    Neural_Network(int, std::vector<int>, int);
+    ~Neural_Network();
 
-        // need a function to train the network and access a set of training data
-        // need a backpropagation function for training
+    void randomize();
+    void train();           // probably takes in training data
+    void backpropagate();
+    double ReLU(double);
+    void print();
+    std::vector<double> compute(std::vector<double>);
 
-        void randomize();
+    private: 
 
-        // uses command line for input and output; most likely bad setup for training
-        void calculate();
+    std::vector<int> layer_sizes;
+    std::vector<std::vector<std::vector<double>>> weights;
+    std::vector<std::vector<double>> biases;
+    std::vector<std::vector<double>> activations;
 
-        void print();
-
-
-    private:
-
-        std::vector<Neuron> input_layer;
-        std::vector<Neuron> output_layer;
-        std::vector<std::vector<Neuron>> hidden_layer;
-        int hidden_layers;
+    int num_layers;
+    int num_hidden_layers;
 
 };
 
