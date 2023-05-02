@@ -43,7 +43,12 @@ Time Begun Outside of Lab: March 05, 2023 @ 12:00 am
 		neurons without exceeding c++ ability to handle
 		large strings etc.
 
-	- April, 30, 2023 1:30 pm to 
+	- April, 30, 2023 1:30 pm to 6:00 pm
+		Updated the network to appropriately,
+		weight inputs and outputs. Began work
+		on creating the automated testing software.
+
+	- May, 01, 2023 8:30 pm to 
 
 Total logged time: 14:00 
 

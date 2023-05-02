@@ -26,7 +26,11 @@ const bool enable_thresholds = false;
 
 int main ()
 {
-	ifstream input_file("network.txt");
+    ifstream inputrepnum("repnum.txt");
+    int file_num;
+    inputrepnum >> file_num;
+    inputrepnum.close();
+	ifstream input_file("./networks/network" + to_string(file_num-1) + ".txt");
 	if (!input_file.is_open())
 	{
 		cout << "ERROR: Could not open file: network.txt" << endl;
@@ -85,7 +89,7 @@ int main ()
             if (nv[i].state < nv[i].threshold) continue;
             for (unsigned int j = 0; j < nv[i].weights.size(); j++)
             {
-                nv[num_input + j].state += (nv[i].state * nv[i].weights[j]) / (num_input);
+                nv[num_input + j].state += (nv[i].state * nv[i].weights[j]);
             }
         }
         for (i=i;i < num_input + (num_hidden * num_per_hidden); i++)
@@ -93,15 +97,24 @@ int main ()
             if ((nv[i].state) < (nv[i].threshold)) continue;
             for (unsigned int j = 0; j < nv[i].weights.size(); j++)
             {
-                nv[(i - (i%num_per_hidden))+num_per_hidden+j].state += (nv[i].state * nv[i].weights[j]) / (num_per_hidden);
+                nv[(i - (i%num_per_hidden))+num_per_hidden+j].state += (nv[i].state * nv[i].weights[j]);
             }
         }
-        cout << nv[i].state * 360;
+    
+        float rota = nv[i].state * 90;
+        if (rota > 90) rota = 90;
+        else if (rota < -90) rota = -90;
+        cout << rota;
         i++;
-        cout << " " << nv[i].state * 360;
+        float rotb = nv[i].state * 90;
+        if (rotb > 90) rotb = 90;
+        else if (rotb < -90) rotb = -90;
+        cout << " " << rotb;
         i++;
-        cout << " " << nv[i].state * 2;
-        cout << endl;
+        float thrust = nv[i].state * 2;
+        if (thrust > 2) thrust = 2;
+        else if (thrust < 0) thrust = 0;
+        cout << " " << thrust << endl;
         if (print_mode) print_net(nv);
     }
     return 0;
