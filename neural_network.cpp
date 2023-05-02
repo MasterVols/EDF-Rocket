@@ -104,8 +104,12 @@ void Neural_Network::randomize() {
 
         for(long unsigned int j = 0; j < biases.at(i).size(); j++) {
 
+            /*
             r = rand();
             biases.at(i).at(j) = r / RAND_MAX;
+            */
+
+           biases.at(i).at(j) = 1.0;
 
         }
 
@@ -115,11 +119,23 @@ void Neural_Network::randomize() {
 
 void Neural_Network::train() {};
 
-void Neural_Network::backpropagate() {};
+vector<double> Neural_Network::backpropagate() {
+
+    
+
+};
 
 double Neural_Network::ReLU(double z) {
 
-    return 1;
+    if(z > 0) {
+
+        return z;
+
+    } else {
+
+        return 0;
+
+    }
 
 };
 
@@ -183,6 +199,20 @@ void Neural_Network::print() {
 
     }
 
+    // print activations
+
+    cout << endl << "Activations" << endl << endl;
+
+    for(long unsigned int i = 0; i < activations.size(); i++) {
+
+        for(long unsigned int j = 0; j < activations.at(i).size(); j++) {
+
+            cout << "(" << i << ")(" << j << "): " << activations.at(i).at(j) << endl;
+
+        }
+
+    }
+
     cout << endl << endl;
 
 };
@@ -195,14 +225,16 @@ vector<double> Neural_Network::compute(vector<double> inputs) {
 
     for(int i = 0; i < num_layers; i++) {
 
-        cout << "i: " << i << endl;
-
         // input layer
         if(i == 0) {
 
             for(int j = 0; j < layer_sizes.at(i); j++) {
 
-                activations.at(i).at(j) == ReLU(inputs.at(j));
+                cout << "Relu: " << ReLU(inputs.at(j)) << endl;
+
+                activations.at(i).at(j) = ReLU(inputs.at(j));
+
+                cout << "Activate: " << activations.at(i).at(j);
 
             }
 
@@ -211,13 +243,9 @@ vector<double> Neural_Network::compute(vector<double> inputs) {
 
             for(int j = 0; j < layer_sizes.at(i); j++) {
 
-                cout << "j: " << j << endl;
-
                 weighted_sum = 0; 
 
                 for(int k = 0; k < layer_sizes.at(i - 1); k++) {
-                    
-                    cout << "k: " << k << endl;
 
                     weighted_sum += activations.at(i - 1).at(k) * weights.at(i - 1).at(j).at(k);
 
