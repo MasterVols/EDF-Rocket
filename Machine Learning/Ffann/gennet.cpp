@@ -10,6 +10,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <bits/stdc++.h>
+#include <string>
 using namespace std;
 
 float ranf(float,float);
@@ -19,6 +20,7 @@ int main()
     srand(time(0));
     int num_in, num_out, num_hidden, num_per_hidden;
     float thresh_min, thresh_max, weight_min, weight_max;
+    /*
     cout << "Enter the number of inputs: ";
     cin >> num_in;
     cout << "Enter the number of outputs: ";
@@ -35,8 +37,24 @@ int main()
     cin >> weight_min;
     cout << "Enter the maximum value for the weight: ";
     cin >> weight_max;
-
-    std::ofstream outputFile("network.txt");
+    */
+    num_in = 9;
+    num_out = 3;
+    num_hidden = 3;
+    num_per_hidden = 9;
+    thresh_min = -0.25;
+    thresh_max = 0.25;
+    weight_min = -0.25;
+    weight_max = 0.35;
+    ifstream inputrepnum("repnum.txt");
+    int file_num;
+    inputrepnum >> file_num;
+    inputrepnum.close();
+    ofstream outputrepnum("repnum.txt");
+    outputrepnum << file_num + 1;
+    outputrepnum.close();
+    
+    std::ofstream outputFile("./networks/network" + to_string(file_num) + ".txt");
     if (outputFile.is_open()) {
         outputFile << num_in << " " << num_out << " " << num_hidden << " " << num_per_hidden;
         for (int i = 0; i < num_in; i++)
