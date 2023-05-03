@@ -5,9 +5,12 @@
  *	3/29: 2 hours, editing matrix function, writing the cin function
  *	4/16: 1 hour finishing Matrix function
  *	4/18: 2 hours calculating final requirement though matrices
+ *	4/24: 1 hour determining Pitch and Yaw change equations
+ *	4/25: 1.5 hours learning how to implement rotation in code
  * https://mathworld.wolfram.com/EulerAngles.html
  *  https://stackoverflow.com/questions/1996957/conversion-euler-to-matrix-and-matrix-to-euler
  *  https://www.gatevidyalay.com/3d-rotation-in-computer-graphics-definition-examples/
+ *  https://www.youtube.com/watch?v=zjMulxRvygQ
  * Right now I'm getting the euler values into a matrix, I will need to multiply it by a matrix to get the rocket where I want it to be, and then use that to determine where the thruster needs to be positioned so I can thrust at some value.
  * Mayhaps use a map to hold the values every input so they can be referenced easily by the neural networks`
  * General Rotation A = BCD

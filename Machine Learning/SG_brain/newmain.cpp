@@ -6,15 +6,16 @@ int main(){
 	float angy;
 	float angz;
 	float x, y, z;
-	float v;
+	float vx, vy, vz;
 	float thrustx, thrusty, thrust;
 	float vtarg = 4;
 	float n = (10);
 
-	cin >> x >> y >> z >> angx >> angy >> angz >> v;
+	cin >> x >> y >> z >> angx >> angy >> angz >> vx >> vy >> vz;
 
 	thrustx = (angx)*(-1);
 	thrusty = (angy)*(-1);
-	thrust = (v/vtarg); /// n;
+	thrust = (vz/vtarg); /// n;
 	cout << thrustx << " " << thrusty << " " << thrust;
+	return 0;
 }	
