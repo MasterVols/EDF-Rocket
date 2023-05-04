@@ -30,6 +30,7 @@ int main ()
     int file_num;
     inputrepnum >> file_num;
     inputrepnum.close();
+    
 	ifstream input_file("./networks/network" + to_string(file_num-1) + ".txt");
 	if (!input_file.is_open())
 	{
@@ -82,7 +83,24 @@ int main ()
         ist.str(input);
         for (unsigned int i = 0; i < nv.size(); i++) nv[i].state = 0;
         for (int i = 0; i < num_input; i++) ist >> nv[i].state;
-        for (int i = 3; i < 6; i++) nv[i].state = nv[i].state/360;
+        for (int i = 0; i < 3; i++) nv[i].state = nv[i].state/100;
+        for (int i = 3; i < 6; i++)
+        {
+            if (nv[i].state <= 360 || nv[i].state >= 360) nv[i].state = nv[i].state / 360;
+            else if (nv[i].state >= 0)
+            {
+                float ogf = nv[i].state;
+                int ogi = nv[i].state;
+                nv[i].state = ogf - 360 * (ogi / 360);
+            }
+            else
+            {
+                float ogf = -nv[i].state;
+                int ogi = ogf;
+                nv[i].state = -(ogf - 360 * (ogi / 360));
+            }
+        }
+        for (int i = 6; i < 9; i++) nv[i].state = nv[i].state/100;
         int i = 0;
         for (i=i;i < num_input; i++)
         {
@@ -90,6 +108,7 @@ int main ()
             for (unsigned int j = 0; j < nv[i].weights.size(); j++)
             {
                 nv[num_input + j].state += (nv[i].state * nv[i].weights[j]);
+                //nv[num_input + j].state += (nv[i].weights[j]);
             }
         }
         for (i=i;i < num_input + (num_hidden * num_per_hidden); i++)
@@ -98,6 +117,7 @@ int main ()
             for (unsigned int j = 0; j < nv[i].weights.size(); j++)
             {
                 nv[(i - (i%num_per_hidden))+num_per_hidden+j].state += (nv[i].state * nv[i].weights[j]);
+                //nv[(i - (i%num_per_hidden))+num_per_hidden+j].state += (nv[i].weights[j]);
             }
         }
     
@@ -115,7 +135,8 @@ int main ()
         if (thrust > 2) thrust = 2;
         else if (thrust < 0) thrust = 0;
         cout << " " << thrust << endl;
-        if (print_mode) print_net(nv);
+        //if (print_mode) print_net(nv);
+        //cout << nv[i++].state << " " << nv[i++].state << " " << nv[i++].state << endl;
     }
     return 0;
 }

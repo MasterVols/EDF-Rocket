@@ -6,75 +6,70 @@
 
 #include <iostream>
 #include <fstream>
-#include <ctime>
-#include <math.h>
 #include <stdio.h>
-#include <bits/stdc++.h>
 #include <string>
+#include <random>
 using namespace std;
 
 float ranf(float,float);
 
 int main()
 {
+    // time for random numbers
     srand(time(0));
+
+    // variables that define our network
     int num_in, num_out, num_hidden, num_per_hidden;
     float thresh_min, thresh_max, weight_min, weight_max;
-    /*
-    cout << "Enter the number of inputs: ";
-    cin >> num_in;
-    cout << "Enter the number of outputs: ";
-    cin >> num_out;
-    cout << "Enter the number of hidden layers: ";
-    cin >> num_hidden;
-    cout << "Enter the number of nodes per hidden layer: ";
-    cin >> num_per_hidden;
-    cout << "Enter the minimum value for the threshold: ";
-    cin >> thresh_min;
-    cout << "Enter the maximum value for the threshold: ";
-    cin >> thresh_max;
-    cout << "Enter the minimum value for the weight: ";
-    cin >> weight_min;
-    cout << "Enter the maximum value for the weight: ";
-    cin >> weight_max;
-    */
     num_in = 9;
     num_out = 3;
-    num_hidden = 3;
+    num_hidden = 2;
     num_per_hidden = 9;
-    thresh_min = -0.25;
-    thresh_max = 0.25;
-    weight_min = -0.25;
-    weight_max = 0.35;
+    thresh_min = -1;
+    thresh_max = 1;
+    weight_min = -1;
+    weight_max = 1;
+
+    // This file is used to determine what to number the network generated
     ifstream inputrepnum("repnum.txt");
     int file_num;
     inputrepnum >> file_num;
     inputrepnum.close();
-    ofstream outputrepnum("repnum.txt");
-    outputrepnum << file_num + 1;
-    outputrepnum.close();
+    ofstream orepn("repnum.txt");
+    orepn << file_num + 1;
+    orepn.close();
     
+    // Create the appropriately named network text file
     std::ofstream outputFile("./networks/network" + to_string(file_num) + ".txt");
-    if (outputFile.is_open()) {
-        outputFile << num_in << " " << num_out << " " << num_hidden << " " << num_per_hidden;
+
+    // Output the network description to the file
+    // Each new line should describe a neuron and contains its threshold and
+    // all post synapses to the following slice.
+    if (outputFile.is_open())
+    {
+        outputFile << num_in << " " << num_out << " " << num_hidden << " " << num_per_hidden << endl;
         for (int i = 0; i < num_in; i++)
         {
-            outputFile << " " << ranf(thresh_min,thresh_max);
+            outputFile << ranf(thresh_min,thresh_max);
             for (int j = 0; j < num_per_hidden; j++) outputFile << " " << ranf(weight_min,weight_max);
+            outputFile << endl;
         }
         for (int i = 0; i < (num_hidden - 1) * num_per_hidden; i++)
         {
-            outputFile << " " << ranf(thresh_min,thresh_max);;
+            outputFile << ranf(thresh_min,thresh_max);;
             for (int j = 0; j < num_per_hidden; j++) outputFile << " " << ranf(weight_min,weight_max);
+            outputFile << endl;
         }
         for (int i = 0; i < num_per_hidden; i++)
         {
-            outputFile << " " << ranf(thresh_min,thresh_max);
+            outputFile << ranf(thresh_min,thresh_max);
             for (int j = 0;j<num_out;j++) outputFile << " " << ranf(weight_min,weight_max);
+            outputFile << endl;
         }
         for (int i = 0; i < num_out; i++)
         {
-            outputFile << " " << ranf(thresh_min,thresh_max);
+            outputFile << ranf(thresh_min,thresh_max);
+            outputFile << endl;
         }
         outputFile.close();
         cout << "Random numbers generated and written to network.txt" << std::endl;
@@ -89,6 +84,7 @@ int main()
 
 float ranf(float min,float max)
 {
-    float i = (float)(rand()) / (float)(RAND_MAX);
-    return min + (fmod(i,max-min));
+    mt19937 gen(random_device{}());
+    uniform_real_distribution<float> distr(min,max);
+    return distr(gen);
 }

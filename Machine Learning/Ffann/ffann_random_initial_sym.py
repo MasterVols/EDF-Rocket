@@ -31,7 +31,7 @@ CENTER_OF_MASS = 0.5
 
 
 
-for a in range(500):
+for a in range(10):
     
     gennetexecutable = "C:\\Users\\reed2\\OneDrive\\Desktop\\Github Repos\\EDF-Rocket\\Machine Learning\\Ffann\\gennet.exe"
     subprocess.check_output([gennetexecutable], text=True)
