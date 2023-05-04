@@ -54,7 +54,11 @@ Time Begun Outside of Lab: March 05, 2023 @ 12:00 am
 		software to select higher performance networks
 		and perform evolutionary optimization.
 
-	- May, 03, 2023 1:45 pm
+	- May, 03, 2023 1:45 pm ~ May, 02, 2023 4:00 am
+		I created the training software for ffann.
+		I also attemtped to train the network, but
+		seem to have identified major flaws in how
+		we currently aproach training.
 
 Total logged time: 14:00 
 
