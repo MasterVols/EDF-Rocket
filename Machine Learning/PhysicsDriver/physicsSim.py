@@ -4,12 +4,17 @@ import math
 import time
 import os
 
+#
+#   Use python 3.8.10
+#   python --version to check
+#
+
 # MATTHEW's
 #Executable = "C:\\Users\\Matth\\OneDrive\\Documents\\GitHub\\EDF-Rocket\\Machine Learning\\PhysicsDriver\\test_driver.exe"
 #report_folder = "C:\\Users\\Matth\\OneDrive\\Documents\\GitHub\\EDF-Rocket\\Machine Learning\\PhysicsDriver\\reports"
 # PHILLIP's
-# Executable = "C:\\Users\\reed2\\OneDrive\\Desktop\\Github Repos\\EDF-Rocket\Machine Learning\\Ffann\\main.exe"
-# report_folder = "C:\\Users\\reed2\\OneDrive\\Desktop\\Github Repos\\EDF-Rocket\Machine Learning\\Ffann\\ffann-reports"
+Executable = "C:\\Users\\reed2\\OneDrive\\Desktop\\Github Repos\\EDF-Rocket\\Machine Learning\\Ffann\\main.exe"
+report_folder = "C:\\Users\\reed2\\OneDrive\\Desktop\\Github Repos\\EDF-Rocket\Machine Learning\\Ffann\\ffann-reports"
 # SAGE's
 Executable = "C:\\Users\\sgray\\OneDrive\\Documents\\GitHub\\EDF-Rocket\\Machine Learning\\PhysicsDriver\\test_driver.exe"
 report_folder = "C:\\Users\\sgray\\OneDrive\\Documents\\GitHub\\EDF-Rocket\\Machine_Learning\\PhysicsDriver\\sage_reports"

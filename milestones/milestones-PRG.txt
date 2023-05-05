@@ -37,7 +37,28 @@ Time Begun Outside of Lab: March 05, 2023 @ 12:00 am
 		a helper funtio to print out the network
 		so it can be more easily 
 
-Last Edited: April, 11, 2023 @ 12:00 am
+	- April, 11, 2023 12:00 am to 4:00 am
+		Continued work on the network, primarily
+		focused on updating it so it can handle more
+		neurons without exceeding c++ ability to handle
+		large strings etc.
+
+	- April, 30, 2023 1:30 pm to 6:00 pm
+		Updated the network to appropriately,
+		weight inputs and outputs. Began work
+		on creating the automated testing software.
+
+	- May, 01, 2023 ~ May, 02, 2023 8:30 pm to 12:30 am
+		Got some work finished on automating the network
+		training. The next step will be to create the 
+		software to select higher performance networks
+		and perform evolutionary optimization.
+
+	- May, 03, 2023 1:45 pm ~ May, 02, 2023 4:00 am
+		I created the training software for ffann.
+		I also attemtped to train the network, but
+		seem to have identified major flaws in how
+		we currently aproach training.
 
 Total logged time: 14:00 
 
