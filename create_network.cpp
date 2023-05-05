@@ -38,11 +38,13 @@ int main() {
 
     happy.randomize();
 
-    happy.print();
+    //happy.print();
 
-    vector<double>  nums = {5.00, -3.00, 0.08, 60.00, -0.20};
+    vector<double> nums = {5.00, -3.00, 0.08, 60.00, -0.20};
 
     vector<double> solution = happy.compute(nums);
+
+    happy.print();
 
     cout << "Solution: " << endl;
 
