@@ -107,17 +107,17 @@ int main ()
             if (nv[i].state < nv[i].threshold) continue;
             for (unsigned int j = 0; j < nv[i].weights.size(); j++)
             {
-                nv[num_input + j].state += (nv[i].state * nv[i].weights[j]);
-                //nv[num_input + j].state += (nv[i].weights[j]);
+                //nv[num_input + j].state += (nv[i].state * nv[i].weights[j]);
+                nv[num_input + j].state += (nv[i].weights[j]);
             }
         }
-        for (i=i;i < num_input + (num_hidden * num_per_hidden); i++)
+        for (i=i;i < num_input + ((num_hidden) * num_per_hidden); i++)
         {
             if ((nv[i].state) < (nv[i].threshold)) continue;
             for (unsigned int j = 0; j < nv[i].weights.size(); j++)
             {
-                nv[(i - (i%num_per_hidden))+num_per_hidden+j].state += (nv[i].state * nv[i].weights[j]);
-                //nv[(i - (i%num_per_hidden))+num_per_hidden+j].state += (nv[i].weights[j]);
+                //nv[(i - (i%num_per_hidden))+num_per_hidden+j].state += (nv[i].state * nv[i].weights[j]);
+                nv[(i - ((i-num_input)%num_per_hidden))+num_per_hidden+j].state += (nv[i].weights[j]);
             }
         }
     

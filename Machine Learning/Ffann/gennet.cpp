@@ -23,8 +23,8 @@ int main()
     float thresh_min, thresh_max, weight_min, weight_max;
     num_in = 9;
     num_out = 3;
-    num_hidden = 2;
-    num_per_hidden = 9;
+    num_hidden = 9;
+    num_per_hidden = 18;
     thresh_min = -1;
     thresh_max = 1;
     weight_min = -1;

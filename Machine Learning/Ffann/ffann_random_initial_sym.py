@@ -16,7 +16,7 @@ report_folder = "C:\\Users\\reed2\\OneDrive\\Desktop\\Github Repos\\EDF-Rocket\M
 randomRotationOnStart = False
 
 #Fitness Tweaking:
-landFrameMultiplier = 1             #Each frame survived is + 1 * multiplier
+landFrameMultiplier = 0.1            #Each frame survived is + 1 * multiplier
 
 landRotMaxAngle = 5                 #Max rotation to call a successful landing
 landVeloMaxVelo = 5                 #Max velocity to call a successful landing
@@ -30,6 +30,10 @@ ROCKET_HEIGHT = 1
 CENTER_OF_MASS = 0.5
 
 
+
+with open("repnum.txt","w") as file:
+        file.truncate()
+        file.write("0")
 
 for a in range(10):
     
@@ -109,12 +113,28 @@ for a in range(10):
                 #time.sleep(DT)
 
             #Send final fitness:
-            if rotation[0] < landRotMaxAngle and rotation[0] > -landRotMaxAngle and rotation[1] < landRotMaxAngle and rotation[1] > -landRotMaxAngle:
+            if abs(rotation[0]) % 360 < landRotMaxAngle and abs(rotation[1]) % 360 < landRotMaxAngle and abs(velocity[2]) < landVeloMaxVelo:
                 fitness_line = f"fitness: {fitness + 1 * landUnderMaxConsMultiplier}\n"
             else:
+                if abs(position[1]) < 10:
+                    fitness += 10
+                if abs(position[0]) < 10:
+                    fitness += 10
+                    
+                if abs(velocity[2]) < landVeloMaxVelo:
+                    fitness += 100
+                elif abs(velocity[2]) < landVeloMaxVelo * 2:
+                    fitness += 25
+                else:
+                    fitness = fitness / (1 + abs(velocity[2]))
+                        
+                if abs(position[0]) > 1000 or abs(position[1]) > 1000:
+                    fitness = 0
+                    
+                fitness = round(fitness)
+                if position[0] > 1000 or position[0] < -1000 or position[1] > 1000 or position[1] < -1000:
+                    fitness = 0
                 fitness_line = f"fitness: {fitness}\n"
             report_file.write(fitness_line)
-
-
     if __name__ == "__main__":
         main()
