@@ -156,21 +156,73 @@ double Neural_Network::d_cost(double x, double x0) {
 
 };
 
-double Neural_Network::ds_dT(char direction, double delta_t, double m, double phi_x, double phi_y) {
+double Neural_Network::ds(string wrt, char direction) {
 
-    double temp = -1; 
+    double temp; 
 
-    if(direction == 'x') {
+    if(wrt == "thrust") {
 
-        double temp = -1 * pow(delta_t, 2) * cos(phi_y) * sin(phi_x) / (2 * m);
+        if(direction == 'x') {
 
-    } else if(direction == 'y') {
+            temp = -1 * pow(delta_t, 2) * cos(phi_y) * sin(phi_x) / (2 * m);
 
-        double temp = -1 * pow(delta_t, 2) * cos(phi_x) * sin(phi_y) / (2 * m);
+        } else if(direction == 'y') {
 
-    } else if(direction == 'z') {
+            temp = -1 * pow(delta_t, 2) * cos(phi_x) * sin(phi_y) / (2 * m);
 
-        double temp = pow(delta_t, 2) * cos(phi_x) * cos(phi_y) / (2 * m);
+        } else if(direction == 'z') {
+
+            temp = pow(delta_t, 2) * cos(phi_x) * cos(phi_y) / (2 * m);
+
+        } else {
+
+            temp = -1;
+
+        }
+
+    }
+
+    if(wrt == "phi_x") {
+
+        if(direction == 'x') {
+
+            temp = -1 * thrust * pow(delta_t, 2) * cos(phi_y) * cos(phi_x) / (2 * m);
+
+        } else if(direction == 'y') {
+
+            temp = thrust * pow(delta_t, 2) * sin(phi_y) * sin(phi_x) / (2 * m);
+
+        } else if(direction == 'z') {
+
+            temp = -1 * thrust * pow(delta_t, 2) * cos(phi_y) * sin(phi_x) / (2 * m);
+
+        } else {
+
+            temp = -1;
+
+        }
+
+    }
+
+    if(wrt == "phi_y") {
+
+        if(direction == 'x') {
+
+            temp = thrust * pow(delta_t, 2) * sin(phi_x) * sin(phi_y) / (2 * m);
+
+        } else if(direction == 'y') {
+
+            temp = -1 * thrust * pow(delta_t, 2) * cos(phi_x) * cos(phi_y) / (2 * m);
+
+        } else if(direction == 'z') {
+
+            temp = -1 * thrust * pow(delta_t, 2) * cos(phi_x) * sin(phi_y) / (2 * m);
+
+        } else {
+
+            temp = -1;
+
+        }
 
     }
 
@@ -178,21 +230,73 @@ double Neural_Network::ds_dT(char direction, double delta_t, double m, double ph
 
 };
 
-double Neural_Network::dv_dT(char direction, double delta_t, double m, double phi_x, double phi_y) {
+double Neural_Network::dv(string wrt, char direction) {
 
-    double temp = -1; 
+    double temp; 
 
-    if(direction == 'x') {
+    if(wrt == "thrust") {
 
-        double temp = -1 * delta_t * cos(phi_y) * sin(phi_x) / m;
+        if(direction == 'x') {
 
-    } else if(direction == 'y') {
+            temp = -1 * delta_t * cos(phi_y) * sin(phi_x) / m;
 
-        double temp = -1 * delta_t * cos(phi_x) * sin(phi_y) / m;
+        } else if(direction == 'y') {
 
-    } else if(direction == 'z') {
+            temp = -1 * delta_t * cos(phi_x) * sin(phi_y) / m;
 
-        double temp = delta_t * cos(phi_x) * cos(phi_y) / m;
+        } else if(direction == 'z') {
+
+            temp = delta_t * cos(phi_x) * cos(phi_y) / m;
+
+        } else {
+        
+            temp = -1;
+        
+        }
+
+    }
+
+    if(wrt == "phi_x") {
+
+        if(direction == 'x') {
+
+            temp = -1 * thrust * delta_t * cos(phi_y) * cos(phi_x) / m;
+
+        } else if(direction == 'y') {
+
+            temp = thrust * delta_t * sin(phi_y) * sin(phi_x) / m;
+
+        } else if(direction == 'z') {
+
+            temp = -1 * thrust * delta_t * cos(phi_y) * sin(phi_x) / m;
+
+        } else {
+        
+            temp = -1;
+        
+        }
+
+    }
+
+    if(wrt == "phi_y") {
+
+        if(direction == 'x') {
+
+            temp = thrust * delta_t * sin(phi_x) * sin(phi_y) / m;
+
+        } else if(direction == 'y') {
+
+            temp = -1 * thrust * delta_t * cos(phi_x) * cos(phi_y) / m;
+
+        } else if(direction == 'z') {
+
+            temp = -1 * thrust * delta_t * cos(phi_x) * sin(phi_y) / m;
+
+        } else {
+        
+            temp = -1;
+        
+        }
 
     }
 
@@ -200,21 +304,259 @@ double Neural_Network::dv_dT(char direction, double delta_t, double m, double ph
 
 };
 
-double Neural_Network::da_dT(char direction, double m, double phi_x, double phi_y) {
+double Neural_Network::da(string wrt, char direction) {
 
-    double temp = -1; 
+    double temp; 
 
-    if(direction == 'x') {
+    if(wrt == "thrust") {
 
-        double temp = -1 * cos(phi_y) * sin(phi_x) / m;
+        if(direction == 'x') {
 
-    } else if(direction == 'y') {
+            temp = -1 * cos(phi_y) * sin(phi_x) / m;
 
-        double temp = -1 * cos(phi_x) * sin(phi_y) / m;
+        } else if(direction == 'y') {
 
-    } else if(direction == 'z') {
+            temp = -1 * cos(phi_x) * sin(phi_y) / m;
 
-        double temp = cos(phi_x) * cos(phi_y) / m;
+        } else if(direction == 'z') {
+
+            temp = cos(phi_x) * cos(phi_y) / m;
+
+        } else {
+
+            temp = -1;
+
+        }
+
+    }
+
+    if(wrt == "phi_x") {
+
+        if(direction == 'x') {
+
+            temp = -1 * thrust * cos(phi_y) * cos(phi_x) / m;
+
+        } else if(direction == 'y') {
+
+            temp = thrust * sin(phi_y) * sin(phi_x) / m;
+
+        } else if(direction == 'z') {
+
+            temp = -1 * thrust * cos(phi_y) * sin(phi_x) / m;
+
+        } else {
+
+            temp = -1;
+
+        }
+
+    }
+
+    if(wrt == "phi_y") {
+
+        if(direction == 'x') {
+
+            temp = thrust * sin(phi_x) * sin(phi_y) / m;
+
+        } else if(direction == 'y') {
+
+            temp = -1 * thrust * cos(phi_x) * cos(phi_y) / m;
+
+        } else if(direction == 'z') {
+
+            temp = -1 * thrust * cos(phi_x) * sin(phi_y) / m;
+
+        } else {
+
+            temp = -1;
+
+        }
+
+    }
+
+    return temp;
+
+}
+
+double Neural_Network::d_theta(string wrt, char direction) {
+
+    double temp = -1;
+
+    if(wrt == "thrust") {
+
+        if(direction == 'x') {
+
+            temp = -1 * length * pow(delta_t, 2) * cos(phi_y) * sin(phi_x) / (4 * I);
+
+        } else if(direction == 'y') {
+
+            temp = -1 * length * pow(delta_t, 2) * cos(phi_x) * sin(phi_y) / (4 * I);
+
+        } else {
+
+            temp = -1;
+
+        }
+
+    }
+
+    if(wrt == "phi_x") {
+
+        if(direction == 'x') {
+
+            temp = -1 * thrust * length * pow(delta_t, 2) * cos(phi_y) * cos(phi_x) / (4 * I);
+
+        } else if(direction == 'y') {
+
+            temp = thrust * length * pow(delta_t, 2) * sin(phi_y) * sin(phi_x) / (4 * I);
+
+        } else {
+
+            temp = -1;
+
+        }
+
+    }
+
+    if(wrt == "phi_y") {
+
+        if(direction == 'x') {
+
+            temp = thrust * length * pow(delta_t, 2) * sin(phi_x) * sin(phi_y) / (4 * I);
+
+        } else if(direction == 'y') {
+
+            temp = -1 * thrust * length * pow(delta_t, 2) * cos(phi_x) * cos(phi_y) / (4 * I);
+
+        } else {
+
+            temp = -1;
+
+        }
+
+    }
+
+    return temp;
+
+}
+
+double Neural_Network::d_omega(string wrt, char direction) {
+
+    double temp = -1;
+
+    if(wrt == "thrust") {
+
+        if(direction == 'x') {
+
+            temp = -1 * length * delta_t * cos(phi_y) * sin(phi_x) / (2 * I);
+
+        } else if(direction == 'y') {
+
+            temp = -1 * length * delta_t * cos(phi_x) * sin(phi_y) / (2 * I);
+
+        } else {
+
+            temp = -1;
+
+        }
+
+    }
+
+    if(wrt == "phi_x") {
+
+        if(direction == 'x') {
+
+            temp = -1 * thrust * length * delta_t * cos(phi_y) * cos(phi_x) / (2 * I);
+
+        } else if(direction == 'y') {
+
+            temp = thrust * length * delta_t * sin(phi_y) * sin(phi_x) / (2 * I);
+
+        } else {
+
+            temp = -1;
+
+        }
+
+    }
+
+    if(wrt == "phi_y") {
+
+        if(direction == 'x') {
+
+            temp = thrust * length * delta_t * sin(phi_x) * sin(phi_y) / (2 * I);
+
+        } else if(direction == 'y') {
+
+            temp = -1 * thrust * length * delta_t * cos(phi_x) * cos(phi_y) / (2 * I);
+
+        } else {
+
+            temp = -1;
+
+        }
+
+    }
+
+    return temp;
+
+}
+
+double Neural_Network::d_alpha(string wrt, char direction) {
+
+    double temp = -1;
+
+    if(wrt == "thrust") {
+
+        if(direction == 'x') {
+
+            temp = -1 * length * cos(phi_y) * sin(phi_x) / (2 * I);
+
+        } else if(direction == 'y') {
+
+            temp = -1 * length * cos(phi_x) * sin(phi_y) / (2 * I);
+
+        } else {
+
+            temp = -1;
+
+        }
+
+    }
+
+    if(wrt == "phi_x") {
+
+        if(direction == 'x') {
+
+            temp = -1 * thrust * length * cos(phi_y) * cos(phi_x) / (2 * I);
+
+        } else if(direction == 'y') {
+
+            temp = thrust * length * sin(phi_y) * sin(phi_x) / (2 * I);
+
+        } else {
+
+            temp = -1;
+
+        }
+
+    }
+
+    if(wrt == "phi_y") {
+
+        if(direction == 'x') {
+
+            temp = thrust * length * sin(phi_x) * sin(phi_y) / (2 * I);
+
+        } else if(direction == 'y') {
+
+            temp = -1 * thrust * length * cos(phi_x) * cos(phi_y) / (2 * I);
+
+        } else {
+
+            temp = -1;
+
+        }
 
     }
 
@@ -252,62 +594,82 @@ double Neural_Network::d_ReLU(double z) {
 
 void Neural_Network::rocket_backpropagate(vector<double> inputs) {
 
-    int num_changes = 13;
+    int num_changes = 14;
 
     // initial position
-    double sx1 = inputs.at(0);
-    double sy1 = inputs.at(1);
-    double sz1 = inputs.at(2);
+    sx1 = inputs.at(0);
+    sy1 = inputs.at(1);
+    sz1 = inputs.at(2);
 
     // final position
-    double sx2 = inputs.at(3);
-    double sy2 = inputs.at(4);
-    double sz2 = inputs.at(5); 
+    sx2 = inputs.at(3);
+    sy2 = inputs.at(4);
+    sz2 = inputs.at(5); 
 
     // initial velocity
-    double vx1 = inputs.at(6);
-    double vy1 = inputs.at(7);
-    double vz1 = inputs.at(8);
+    vx1 = inputs.at(6);
+    vy1 = inputs.at(7);
+    vz1 = inputs.at(8);
 
     // final velocity
-    double vx2 = inputs.at(9);
-    double vy2 = inputs.at(10);
-    double vz2 = inputs.at(11);
+    vx2 = inputs.at(9);
+    vy2 = inputs.at(10);
+    vz2 = inputs.at(11);
 
     // initial acceleration
-    double ax1 = inputs.at(12);
-    double ay1 = inputs.at(13);
-    double az1 = inputs.at(14);
+    ax1 = inputs.at(12);
+    ay1 = inputs.at(13);
+    az1 = inputs.at(14);
 
     // final acceleration
-    double ax2 = inputs.at(15);
-    double ay2 = inputs.at(16);
-    double az2 = inputs.at(17);
+    ax2 = inputs.at(15);
+    ay2 = inputs.at(16);
+    az2 = inputs.at(17);
 
     // initial angle of rocket
-    double theta_x1 = inputs.at(18);
-    double theta_y1 = inputs.at(19);
+    theta_x1 = inputs.at(18);
+    theta_y1 = inputs.at(19);
     
     // final angle of rocket
-    double theta_x2 = inputs.at(20);
-    double theta_y2 = inputs.at(21);
+    theta_x2 = inputs.at(20);
+    theta_y2 = inputs.at(21);
     
-    // angular velocity
-    double wx = inputs.at(11);
-    double wy = inputs.at(12);
+    // initial angular velocity
+    omega_x1 = inputs.at(22);
+    omega_y1 = inputs.at(23);
+
+    // final angular velocity
+    omega_x2 = inputs.at(24);
+    omega_y2 = inputs.at(25);
+
+    // initial angular acceleration
+    alpha_x1 = inputs.at(26);
+    alpha_y1 = inputs.at(27);
+
+    // final angular acceleration
+    alpha_x2 = inputs.at(28);
+    alpha_y2 = inputs.at(29);
 
     // thruster power
-    double thrust = inputs.at(13);
+    thrust = inputs.at(30);
     
     // thruster angle
-    double phi_x = inputs.at(14);
-    double phi_y = inputs.at(15);
+    phi_x = inputs.at(31);
+    phi_y = inputs.at(32);
 
     // change in time
-    double delta_t = inputs.at(16);
+    delta_t = inputs.at(33);
 
     // mass 
-    double m = inputs.at(24);
+    m = inputs.at(34);
+
+    // length of rocket
+    length = inputs.at(35);
+
+    // moment of intertia
+    I = m * pow(length, 2) / 12;
+
+
 
     // initialize vector for storing dC/dw
 
@@ -363,12 +725,32 @@ void Neural_Network::rocket_backpropagate(vector<double> inputs) {
 
             if(i == 0) {
 
+                string wrt;
+
+                if(j == 0) {
+
+                    wrt = "thrust";
+
+                } else if(j == 1) {
+
+                    wrt = "phi_x";
+
+                } else if(j == 2) {
+
+                    wrt = "phi_y";
+
+                } else {
+
+                    wrt = "";
+
+                }
+
                 for(int k = 0; k < num_changes; k++) {
 
                     // sx
                     if(k == 0) {
                     
-                        current_dz = d_cost(sx2, sx1) * ds_dT('x', delta_t, m, phi_x, phi_y);
+                        current_dz = d_cost(sx2, sx1) * ds(wrt, 'x');
                         dz.at(i).at(j) += current_dz;
 
                     }
@@ -376,7 +758,7 @@ void Neural_Network::rocket_backpropagate(vector<double> inputs) {
                     // sy
                     if(k == 1) {
 
-                        current_dz = d_cost(sy2, sy1) * ds_dT('y', delta_t, m, phi_x, phi_y);
+                        current_dz = d_cost(sy2, sy1) * ds(wrt, 'y');
                         dz.at(i).at(j) += current_dz;
 
                     }
@@ -384,7 +766,7 @@ void Neural_Network::rocket_backpropagate(vector<double> inputs) {
                     // sz
                     if(k == 2) {
 
-                        current_dz = d_cost(sz2, sz1) * ds_dT('z', delta_t, m, phi_x, phi_y);
+                        current_dz = d_cost(sz2, sz1) * ds(wrt, 'z');
                         dz.at(i).at(j) += current_dz;
 
                     }
@@ -392,7 +774,7 @@ void Neural_Network::rocket_backpropagate(vector<double> inputs) {
                     // vx
                     if(k == 3) {
 
-                        current_dz = d_cost(vx2, vx1) * dv_dT('x', delta_t, m, phi_x, phi_y);
+                        current_dz = d_cost(vx2, vx1) * dv(wrt, 'x');
                         dz.at(i).at(j) += current_dz;
 
                     }
@@ -400,7 +782,7 @@ void Neural_Network::rocket_backpropagate(vector<double> inputs) {
                     // vy
                     if(k == 4) {
 
-                        current_dz = d_cost(vy2, vy1) * dv_dT('y', delta_t, m, phi_x, phi_y);
+                        current_dz = d_cost(vy2, vy1) * dv(wrt, 'y');
                         dz.at(i).at(j) += current_dz;
 
                     }
@@ -408,7 +790,7 @@ void Neural_Network::rocket_backpropagate(vector<double> inputs) {
                     // vz
                     if(k == 5) {
 
-                        current_dz = d_cost(vz2, vz1) * dv_dT('z', delta_t, m, phi_x, phi_y);
+                        current_dz = d_cost(vz2, vz1) * dv(wrt, 'z');
                         dz.at(i).at(j) += current_dz;
 
                     }
@@ -416,7 +798,7 @@ void Neural_Network::rocket_backpropagate(vector<double> inputs) {
                     // ax
                     if(k == 6) {
 
-                        current_dz = d_cost(ax2, ax1) * da_dT('x', m, phi_x, phi_y);
+                        current_dz = d_cost(ax2, ax1) * da(wrt, 'x');
                         dz.at(i).at(j) += current_dz;
 
                     }
@@ -424,7 +806,7 @@ void Neural_Network::rocket_backpropagate(vector<double> inputs) {
                     // ay
                     if(k == 7) {
 
-                        current_dz = d_cost(ay2, ay1) * da_dT('y', m, phi_x, phi_y);
+                        current_dz = d_cost(ay2, ay1) * da(wrt, 'y');
                         dz.at(i).at(j) += current_dz;
 
                     }
@@ -432,14 +814,58 @@ void Neural_Network::rocket_backpropagate(vector<double> inputs) {
                     // az
                     if(k == 8) {
 
-                        current_dz = d_cost(az2, az1) * da_dT('z', m, phi_x, phi_y);
+                        current_dz = d_cost(az2, az1) * da(wrt, 'z');
                         dz.at(i).at(j) += current_dz;
 
                     }
                     
+                    // theta_x
+                    if(k == 9) {
 
-                    // 
+                        current_dz = d_cost(theta_x2, theta_x1) * d_theta(wrt, 'x');
+                        dz.at(i).at(j) += current_dz;
 
+                    }
+
+                    // theta_y
+                    if(k == 10) {
+
+                        current_dz = d_cost(theta_y2, theta_y1) * d_theta(wrt, 'y');
+                        dz.at(i).at(j) += current_dz;
+
+                    }
+
+                    // omega_x
+                    if(k == 11) {
+
+                        current_dz = d_cost(omega_x2, omega_x1) * d_omega(wrt, 'x');
+                        dz.at(i).at(j) += current_dz;
+
+                    }
+
+                    // omega_y
+                    if(k == 12) {
+
+                        current_dz = d_cost(omega_y2, omega_y1) * d_omega(wrt, 'y');
+                        dz.at(i).at(j) += current_dz;
+
+                    }
+
+                    // alpha_x
+                    if(k == 13) {
+
+                        current_dz = d_cost(alpha_x2, alpha_x1) * d_alpha(wrt, 'x');
+                        dz.at(i).at(j) += current_dz;
+
+                    }
+
+                    // alpha_y
+                    if(k == 14) {
+
+                        current_dz = d_cost(alpha_y2, alpha_y1) * d_alpha(wrt, 'x');
+                        dz.at(i).at(j) += current_dz;
+
+                    }
 
                 }
 

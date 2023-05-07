@@ -20,9 +20,12 @@ class Neural_Network {
 
     double cost(double, double);
     double d_cost(double, double); // derivative
-    double ds_dT(char, double, double, double, double); 
-    double dv_dT(char, double, double, double, double);
-    double da_dT(char, double, double, double);
+    double ds(string, char); 
+    double dv(string, char);
+    double da(string, char);
+    double d_theta(string, char);
+    double d_omega(string, char);
+    double d_alpha(string, char);
 
     private: 
 
@@ -33,6 +36,22 @@ class Neural_Network {
 
     int num_layers;
     int num_hidden_layers;
+
+    // state variables
+
+    double thrust;                                      // thruster force
+    double phi_x;                                       // x-angle of thruster
+    double phi_y;                                       // y-angle of thruster
+    double sx1, sx2, sy1, sy2, sz1, sz2;                // position
+    double vx1, vx2, vy1, vy2, vz1, vz2;                // velocity
+    double ax1, ax2, ay1, ay2, az1, az2;                // acceleration
+    double theta_x1, theta_x2, theta_y1, theta_y2;      // angle of rocket
+    double omega_x1, omega_x2, omega_y1, omega_y2;      // angular velocity
+    double alpha_x1, alpha_x2, alpha_y1, alpha_y2;      // angular acceleration
+    double length;                                      // length of rocket
+    double m;                                           // mass    
+    double I;                                           // moment of inertia
+    double delta_t;                                     // time interval
 
 };
 
