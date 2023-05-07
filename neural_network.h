@@ -12,7 +12,7 @@ class Neural_Network {
 
     void randomize();
     void train();           // probably takes in training data
-    void rocket_backpropagate(std::vector<double>);
+    pair<vector<vector<vector<double>>>, vector<vector<double>>> rocket_backpropagate(std::vector<double>);
     double ReLU(double);
     double d_ReLU(double);
     void print();

@@ -592,7 +592,7 @@ double Neural_Network::d_ReLU(double z) {
 
 };
 
-void Neural_Network::rocket_backpropagate(vector<double> inputs) {
+pair<vector<vector<vector<double>>>, vector<vector<double>>> Neural_Network::rocket_backpropagate(vector<double> inputs) {
 
     int num_changes = 14;
 
@@ -723,6 +723,8 @@ void Neural_Network::rocket_backpropagate(vector<double> inputs) {
 
         for(int j = 0; j < layer_sizes.at(i); j++) {
 
+            // find dz
+
             if(i == 0) {
 
                 string wrt;
@@ -750,7 +752,7 @@ void Neural_Network::rocket_backpropagate(vector<double> inputs) {
                     // sx
                     if(k == 0) {
                     
-                        current_dz = d_cost(sx2, sx1) * ds(wrt, 'x');
+                        current_dz = d_cost(sx2, sx1) * ds(wrt, 'x') * d_ReLU(activations.at(i).at(j));
                         dz.at(i).at(j) += current_dz;
 
                     }
@@ -758,7 +760,7 @@ void Neural_Network::rocket_backpropagate(vector<double> inputs) {
                     // sy
                     if(k == 1) {
 
-                        current_dz = d_cost(sy2, sy1) * ds(wrt, 'y');
+                        current_dz = d_cost(sy2, sy1) * ds(wrt, 'y') * d_ReLU(activations.at(i).at(j));
                         dz.at(i).at(j) += current_dz;
 
                     }
@@ -766,7 +768,7 @@ void Neural_Network::rocket_backpropagate(vector<double> inputs) {
                     // sz
                     if(k == 2) {
 
-                        current_dz = d_cost(sz2, sz1) * ds(wrt, 'z');
+                        current_dz = d_cost(sz2, sz1) * ds(wrt, 'z') * d_ReLU(activations.at(i).at(j));
                         dz.at(i).at(j) += current_dz;
 
                     }
@@ -774,7 +776,7 @@ void Neural_Network::rocket_backpropagate(vector<double> inputs) {
                     // vx
                     if(k == 3) {
 
-                        current_dz = d_cost(vx2, vx1) * dv(wrt, 'x');
+                        current_dz = d_cost(vx2, vx1) * dv(wrt, 'x') * d_ReLU(activations.at(i).at(j));
                         dz.at(i).at(j) += current_dz;
 
                     }
@@ -782,7 +784,7 @@ void Neural_Network::rocket_backpropagate(vector<double> inputs) {
                     // vy
                     if(k == 4) {
 
-                        current_dz = d_cost(vy2, vy1) * dv(wrt, 'y');
+                        current_dz = d_cost(vy2, vy1) * dv(wrt, 'y') * d_ReLU(activations.at(i).at(j));
                         dz.at(i).at(j) += current_dz;
 
                     }
@@ -790,7 +792,7 @@ void Neural_Network::rocket_backpropagate(vector<double> inputs) {
                     // vz
                     if(k == 5) {
 
-                        current_dz = d_cost(vz2, vz1) * dv(wrt, 'z');
+                        current_dz = d_cost(vz2, vz1) * dv(wrt, 'z') * d_ReLU(activations.at(i).at(j));
                         dz.at(i).at(j) += current_dz;
 
                     }
@@ -798,7 +800,7 @@ void Neural_Network::rocket_backpropagate(vector<double> inputs) {
                     // ax
                     if(k == 6) {
 
-                        current_dz = d_cost(ax2, ax1) * da(wrt, 'x');
+                        current_dz = d_cost(ax2, ax1) * da(wrt, 'x') * d_ReLU(activations.at(i).at(j));
                         dz.at(i).at(j) += current_dz;
 
                     }
@@ -806,7 +808,7 @@ void Neural_Network::rocket_backpropagate(vector<double> inputs) {
                     // ay
                     if(k == 7) {
 
-                        current_dz = d_cost(ay2, ay1) * da(wrt, 'y');
+                        current_dz = d_cost(ay2, ay1) * da(wrt, 'y') * d_ReLU(activations.at(i).at(j));
                         dz.at(i).at(j) += current_dz;
 
                     }
@@ -814,7 +816,7 @@ void Neural_Network::rocket_backpropagate(vector<double> inputs) {
                     // az
                     if(k == 8) {
 
-                        current_dz = d_cost(az2, az1) * da(wrt, 'z');
+                        current_dz = d_cost(az2, az1) * da(wrt, 'z') * d_ReLU(activations.at(i).at(j));
                         dz.at(i).at(j) += current_dz;
 
                     }
@@ -822,7 +824,7 @@ void Neural_Network::rocket_backpropagate(vector<double> inputs) {
                     // theta_x
                     if(k == 9) {
 
-                        current_dz = d_cost(theta_x2, theta_x1) * d_theta(wrt, 'x');
+                        current_dz = d_cost(theta_x2, theta_x1) * d_theta(wrt, 'x') * d_ReLU(activations.at(i).at(j));
                         dz.at(i).at(j) += current_dz;
 
                     }
@@ -830,7 +832,7 @@ void Neural_Network::rocket_backpropagate(vector<double> inputs) {
                     // theta_y
                     if(k == 10) {
 
-                        current_dz = d_cost(theta_y2, theta_y1) * d_theta(wrt, 'y');
+                        current_dz = d_cost(theta_y2, theta_y1) * d_theta(wrt, 'y') * d_ReLU(activations.at(i).at(j));
                         dz.at(i).at(j) += current_dz;
 
                     }
@@ -838,7 +840,7 @@ void Neural_Network::rocket_backpropagate(vector<double> inputs) {
                     // omega_x
                     if(k == 11) {
 
-                        current_dz = d_cost(omega_x2, omega_x1) * d_omega(wrt, 'x');
+                        current_dz = d_cost(omega_x2, omega_x1) * d_omega(wrt, 'x') * d_ReLU(activations.at(i).at(j));
                         dz.at(i).at(j) += current_dz;
 
                     }
@@ -846,7 +848,7 @@ void Neural_Network::rocket_backpropagate(vector<double> inputs) {
                     // omega_y
                     if(k == 12) {
 
-                        current_dz = d_cost(omega_y2, omega_y1) * d_omega(wrt, 'y');
+                        current_dz = d_cost(omega_y2, omega_y1) * d_omega(wrt, 'y') * d_ReLU(activations.at(i).at(j));
                         dz.at(i).at(j) += current_dz;
 
                     }
@@ -854,7 +856,7 @@ void Neural_Network::rocket_backpropagate(vector<double> inputs) {
                     // alpha_x
                     if(k == 13) {
 
-                        current_dz = d_cost(alpha_x2, alpha_x1) * d_alpha(wrt, 'x');
+                        current_dz = d_cost(alpha_x2, alpha_x1) * d_alpha(wrt, 'x') * d_ReLU(activations.at(i).at(j));
                         dz.at(i).at(j) += current_dz;
 
                     }
@@ -862,7 +864,7 @@ void Neural_Network::rocket_backpropagate(vector<double> inputs) {
                     // alpha_y
                     if(k == 14) {
 
-                        current_dz = d_cost(alpha_y2, alpha_y1) * d_alpha(wrt, 'x');
+                        current_dz = d_cost(alpha_y2, alpha_y1) * d_alpha(wrt, 'x') * d_ReLU(activations.at(i).at(j));
                         dz.at(i).at(j) += current_dz;
 
                     }
@@ -873,15 +875,34 @@ void Neural_Network::rocket_backpropagate(vector<double> inputs) {
 
                 for(int k = 0; k < layer_sizes.at(i + 1); k++) {
 
-
+                    current_dz = dz.at(i + 1).at(k) * weights.at(i + 1).at(k).at(j) * d_ReLU(activations.at(i).at(j));
+                    dz.at(i).at(j) += current_dz;
 
                 }
 
             }
 
+            // dw
+
+            for(int k = 0; k < layer_sizes.at(i - 1); i++) {
+
+                current_dw = dz.at(i).at(j) * activations.at(i - 1).at(k);
+                d_weights.at(i).at(j).at(k) = current_dw;
+
+            }
+
+            // db
+
+            current_db = dz.at(i).at(j);
+            d_biases.at(i).at(j) = current_db;
+
         }
 
     }
+    
+    pair<vector<vector<vector<double>>>, vector<vector<double>>> solution = make_pair(d_weights, d_biases);
+
+    return solution;
 
 };
 
