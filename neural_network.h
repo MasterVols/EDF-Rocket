@@ -2,6 +2,7 @@
 #define NEURAL_NETWORK
 
 #include <vector> 
+#include <string>
 
 class Neural_Network {
 
@@ -12,7 +13,7 @@ class Neural_Network {
 
     void randomize();
     void train();           // probably takes in training data
-    pair<vector<vector<vector<double>>>, vector<vector<double>>> rocket_backpropagate(std::vector<double>);
+    std::pair<std::vector<std::vector<std::vector<double>>>, std::vector<std::vector<double>>> rocket_backpropagate(std::vector<double>);
     double ReLU(double);
     double d_ReLU(double);
     void print();
@@ -20,12 +21,12 @@ class Neural_Network {
 
     double cost(double, double);
     double d_cost(double, double); // derivative
-    double ds(string, char); 
-    double dv(string, char);
-    double da(string, char);
-    double d_theta(string, char);
-    double d_omega(string, char);
-    double d_alpha(string, char);
+    double ds(std::string, char); 
+    double dv(std::string, char);
+    double da(std::string, char);
+    double d_theta(std::string, char);
+    double d_omega(std::string, char);
+    double d_alpha(std::string, char);
 
     private: 
 
