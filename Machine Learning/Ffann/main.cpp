@@ -1,7 +1,11 @@
 // main.cpp
 // Contributor: Phillip Graham
 // Start Time: March 05, 2023
-// Last Edited: April, 25, 2023
+// Last Edited: May, 08 2023
+// Purpose: This is the file which I use to actually allow the physics script to run a simulation using a specific
+//          neural network. This file works by reading in a network description from a networkXXX.txt file.
+//          It then constructs this network and uses it to determine what it should output when promped with input
+//          from the physics simulator script.
 
 #include <iostream>
 #include <fstream>
@@ -11,68 +15,99 @@
 
 using namespace std;
 
+// This structure is primarily used just to help better organize the code.
+// these all could have been held in vectors in the main body of the program,
+// but my using this structure I can make it more compact and only handle one
+// vector
 struct neuron
 {
-    neuron (float,vector<float>);
+    neuron ();
     float threshold;
+    float bias;
+    bool refractory; // This was not used, but I left it in in the event I would like to try and modify the network
     float state;
-    vector<float> weights;
+    vector <neuron*> post_neurons; // Contaisn the destination of every "synapse" that leaves this neuron
+    vector <float> weights; // contains every weight associated with every "synapse"
 };
 
-void print_net(vector<neuron>);
-
-const bool print_mode = false;
-const bool enable_thresholds = false;
 
 int main ()
 {
+    // Here we just handle input and construction of the network. As mentioned in comments for
+    // gennet.cppm, the repnum.txt file just contains the number which designates our respective
+    // network file. By using this common file, we allow our main to be called systematically
+    // without having to handle the name of the fiel we are using for the network description.
+    vector <vector<neuron*>> slices;
+    int num_input, num_output, num_hidden, num_per_hidden;
     ifstream inputrepnum("repnum.txt");
     int file_num;
     inputrepnum >> file_num;
     inputrepnum.close();
-    
 	ifstream input_file("./networks/network" + to_string(file_num-1) + ".txt");
 	if (!input_file.is_open())
 	{
 		cout << "ERROR: Could not open file: network.txt" << endl;
-		return 1;
 	}
-    int num_input = 0, num_output = 0, num_hidden = 0, num_per_hidden = 0;
-    vector <neuron> nv;
-    input_file >> num_input >> num_output >> num_hidden >> num_per_hidden;
-    for (int i = 0; i < (2 + num_hidden); i++)
+    else
     {
-        int slice_height;
-        int post_per_node;
+        num_input = 0;
+        num_output = 0;
+        num_hidden = 0;
+        num_per_hidden = 0;
+        input_file >> num_input >> num_output >> num_hidden >> num_per_hidden;
 
-        if (i == 0)
+        slices.resize(2+num_hidden);
+        slices[0].resize(num_input);
+        for (int i = 0; i < num_hidden; i++) slices[i+1].resize(num_per_hidden);
+        slices[1 + num_hidden].resize(num_output);
+
+        for (unsigned int i = 0; i < slices.size(); i++)
         {
-            slice_height = num_input;
-            post_per_node = num_per_hidden;
-        }
-        else if (i < num_hidden + 1)
-        {
-            slice_height = num_per_hidden;
-            if (i == num_hidden) post_per_node = num_output;
-            else post_per_node = num_per_hidden;
-        }
-        else
-        {
-            slice_height = num_output;
-            post_per_node = 0;
-        }
-        for (int j = 0; j < slice_height; j++)
-        {
-            float thresh_val;
-            vector<float> weights;
-            input_file >> thresh_val;
-            for (int k = 0; k < post_per_node; k++)
+            for (unsigned int j = 0; j < slices[i].size(); j++)
             {
-                float weight_val;
-                input_file >> weight_val;
-                weights.push_back(weight_val);
+                slices[i][j] = new neuron();
             }
-            nv.push_back(neuron(thresh_val,weights));
+        }
+        for (int i = 0; i < (2 + num_hidden); i++)
+        {
+            int slice_height;
+            int post_per_node;
+            if (i == 0)
+            {
+                slice_height = num_input;
+                post_per_node = num_per_hidden;
+            }
+            else if (i < num_hidden + 1)
+            {
+                slice_height = num_per_hidden;
+                if (i == num_hidden) post_per_node = num_output;
+                else post_per_node = num_per_hidden;
+            }
+            else
+            {
+                slice_height = num_output;
+                post_per_node = 0;
+            }
+            for (int j = 0; j < slice_height; j++)
+            {
+                float thresh_val;
+                float bias_val;
+                input_file >> thresh_val;
+                input_file >> bias_val;
+                slices[i][j]->threshold = thresh_val;
+                slices[i][j]->bias = bias_val;
+                vector<float> weights;
+                vector<neuron*> posts;
+                for (int k = 0; k < post_per_node; k++)
+                {
+                    float weight_val;
+                    input_file >> weight_val;
+                    weights.push_back(weight_val);
+                    posts.push_back(slices[i+1][k]);
+                }
+                slices[i][j]->weights = weights;
+                slices[i][j]->post_neurons = posts;
+            }
         }
     }
 
@@ -81,79 +116,82 @@ int main ()
     {
         istringstream ist;
         ist.str(input);
-        for (unsigned int i = 0; i < nv.size(); i++) nv[i].state = 0;
-        for (int i = 0; i < num_input; i++) ist >> nv[i].state;
-        for (int i = 0; i < 3; i++) nv[i].state = nv[i].state/100;
-        for (int i = 3; i < 6; i++)
+
+        for (int i = 0; i < num_input; i++)
         {
-            if (nv[i].state <= 360 || nv[i].state >= 360) nv[i].state = nv[i].state / 360;
-            else if (nv[i].state >= 0)
+            float in;
+            ist >> in;
+            if (i < 3)
             {
-                float ogf = nv[i].state;
-                int ogi = nv[i].state;
-                nv[i].state = ogf - 360 * (ogi / 360);
+                slices[0][i]->state = in / 100;
+            }
+            if (i > 2 && i < 6)
+            {
+                slices[0][i]->state = in / 360;
             }
             else
             {
-                float ogf = -nv[i].state;
-                int ogi = ogf;
-                nv[i].state = -(ogf - 360 * (ogi / 360));
+                slices[0][i]->state = in / 100;
             }
         }
-        for (int i = 6; i < 9; i++) nv[i].state = nv[i].state/100;
-        int i = 0;
-        for (i=i;i < num_input; i++)
+        
+        for (unsigned int i = 0; i < slices.size() - 1; i++)
         {
-            if (nv[i].state < nv[i].threshold) continue;
-            for (unsigned int j = 0; j < nv[i].weights.size(); j++)
+            for (unsigned int j = 0; j < slices[i].size(); j++)
             {
-                //nv[num_input + j].state += (nv[i].state * nv[i].weights[j]);
-                nv[num_input + j].state += (nv[i].weights[j]);
+                if (slices[i][j]->state >= slices[i][j]->threshold)
+                {
+                    for (unsigned int k = 0; k < slices[i][j]->post_neurons.size(); k ++)
+                    {
+                        slices[i][j]->post_neurons[k]->state += slices[i][j]->weights[k] * slices[i][j]->state;
+                    }
+                    slices[i][j]->state = slices[i][j]->bias;
+                }
             }
         }
-        for (i=i;i < num_input + ((num_hidden) * num_per_hidden); i++)
+        
+        for (unsigned int i = 0; i < slices[1+num_hidden].size(); i++)
         {
-            if ((nv[i].state) < (nv[i].threshold)) continue;
-            for (unsigned int j = 0; j < nv[i].weights.size(); j++)
+            if (i != 0) cout << " ";
+            float val = slices[1+num_hidden][i]->state;
+            if (i < 2)
             {
-                //nv[(i - (i%num_per_hidden))+num_per_hidden+j].state += (nv[i].state * nv[i].weights[j]);
-                nv[(i - ((i-num_input)%num_per_hidden))+num_per_hidden+j].state += (nv[i].weights[j]);
+                if (slices[1+num_hidden][i]->state >= slices[1+num_hidden][i]->threshold)
+                {
+                    val = val * 90;
+                    if (val < -90) val = -90;
+                    else if (val > 90) val = 90;
+                    cout << val;
+                    slices[1+num_hidden][i]->state = slices[1+num_hidden][i]->bias;
+                }
+                else cout << 0;
+            } 
+            else
+            {
+                if (slices[1+num_hidden][i]->state >= slices[1+num_hidden][i]->threshold)
+                {
+                    val = val * 2;
+                    if (val < 0) val = 0;
+                    else if (val > 2) val = 2;
+                    cout << val;
+                    slices[1+num_hidden][i]->state = slices[1+num_hidden][i]->bias;
+                }
+                else cout << 0;
             }
         }
-    
-        float rota = nv[i].state * 90;
-        if (rota > 90) rota = 90;
-        else if (rota < -90) rota = -90;
-        cout << rota;
-        i++;
-        float rotb = nv[i].state * 90;
-        if (rotb > 90) rotb = 90;
-        else if (rotb < -90) rotb = -90;
-        cout << " " << rotb;
-        i++;
-        float thrust = nv[i].state * 2;
-        if (thrust > 2) thrust = 2;
-        else if (thrust < 0) thrust = 0;
-        cout << " " << thrust << endl;
-        //if (print_mode) print_net(nv);
-        //cout << nv[i++].state << " " << nv[i++].state << " " << nv[i++].state << endl;
+        cout << endl;
     }
+    for (unsigned int i = 0; i < slices.size(); i++)
+    {
+        for (unsigned int j = 0; j < slices[i].size(); j++) delete slices[i][j];
+    }    
     return 0;
 }
 
-neuron::neuron(float t,vector<float> v)
+neuron::neuron()
 {
-    threshold = t;
-    weights = v;
+    refractory = false;
     state = 0;
-}
-
-void print_net (vector<neuron> nv)
-{
-    for (unsigned int i = 0; i < nv.size(); i++)
-    {
-        cout << "[" << i << "] " << "state:" << nv[i].state << " thresh:" << nv[i].threshold;
-        for (unsigned int j = 0; j < nv[i].weights.size(); j++) cout << " weight" << j << ":" << nv[i].weights[j];
-        cout << endl;
-    }
+    threshold = 0;
+    bias = 0;
 }
