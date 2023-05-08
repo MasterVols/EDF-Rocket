@@ -12,13 +12,15 @@ class Neural_Network {
     ~Neural_Network();
 
     void randomize();
+    void change_weight(int, int, int, double);
+    void change_bias(int, int, double);
     void train();           // probably takes in training data
     std::pair<std::vector<std::vector<std::vector<double>>>, std::vector<std::vector<double>>> rocket_backpropagate(std::vector<double>);
     double ReLU(double);
     double d_ReLU(double);
     void print();
     void print_to_text_file(int);
-    void retrieve_from_text_file();
+    //Neural_Network retrieve_from_text_file(int);
     std::vector<double> compute(std::vector<double>);
 
     double cost(double, double);

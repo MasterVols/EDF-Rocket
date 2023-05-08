@@ -4,12 +4,12 @@
 #include <iostream>
 #include <cmath>
 #include <fstream> 
+#include <string> 
+#include <sstream>
 
 using namespace std;
 
 Neural_Network::Neural_Network(int input_layer_size, vector<int> hidden_layer_sizes, int output_layer_size) {
-
-    cout << "Starting Constructor" << endl;
 
     num_hidden_layers = hidden_layer_sizes.size();
     num_layers = num_hidden_layers + 2;
@@ -24,8 +24,6 @@ Neural_Network::Neural_Network(int input_layer_size, vector<int> hidden_layer_si
 
     }
 
-    cout << "Filled Layer Sizes" << endl;
-
     layer_sizes.push_back(output_layer_size);
 
     // properly size activations vector
@@ -37,8 +35,6 @@ Neural_Network::Neural_Network(int input_layer_size, vector<int> hidden_layer_si
         activations.at(i).resize(layer_sizes.at(i));
 
     }
-
-    cout << "Filled Activations" << endl;
 
     // properly size weights vector
 
@@ -56,8 +52,6 @@ Neural_Network::Neural_Network(int input_layer_size, vector<int> hidden_layer_si
 
     }
 
-    cout << "Filled Weights" << endl;
-
     // properly size biases vector
 
     biases.resize(num_layers - 1);
@@ -68,17 +62,11 @@ Neural_Network::Neural_Network(int input_layer_size, vector<int> hidden_layer_si
 
     }
 
-    cout << "Filled Biases" << endl;
-
-    cout << "Ending Constructor" << endl;
-
 };
 
 Neural_Network::~Neural_Network() {};
 
 void Neural_Network::randomize() {
-
-    cout << "Randomizing" << endl;
 
     // randomize rand() seed
     srand(time(NULL));
@@ -116,6 +104,18 @@ void Neural_Network::randomize() {
         }
 
     }
+
+};
+
+void Neural_Network::change_weight(int i, int j, int k, double w) {
+
+    weights.at(i).at(j).at(k) = w;
+
+};
+
+void Neural_Network::change_bias(int i, int j, double b) {
+
+    biases.at(i).at(j) = b;
 
 };
 
@@ -377,7 +377,7 @@ double Neural_Network::da(string wrt, char direction) {
 
     return temp;
 
-}
+};
 
 double Neural_Network::d_theta(string wrt, char direction) {
 
@@ -439,7 +439,7 @@ double Neural_Network::d_theta(string wrt, char direction) {
 
     return temp;
 
-}
+};
 
 double Neural_Network::d_omega(string wrt, char direction) {
 
@@ -501,7 +501,7 @@ double Neural_Network::d_omega(string wrt, char direction) {
 
     return temp;
 
-}
+};
 
 double Neural_Network::d_alpha(string wrt, char direction) {
 
@@ -563,7 +563,7 @@ double Neural_Network::d_alpha(string wrt, char direction) {
 
     return temp;
 
-}
+};
 
 double Neural_Network::ReLU(double z) {
 
@@ -987,11 +987,11 @@ void Neural_Network::print() {
 
 void Neural_Network::print_to_text_file(int id) {
 
-    string file_name = "tobE_" + id + ".txt";
+    string file_name = "tobE_" + to_string(id) + ".txt";
 
     ofstream out(file_name);
 
-    if(!outfile.is_open()) {
+    if(!out.is_open()) {
         cerr << "Error opening file" << endl;
         return;
     }
@@ -1015,7 +1015,7 @@ void Neural_Network::print_to_text_file(int id) {
 
             for(long unsigned int k = 0; k < weights.at(i).at(j).size(); k++) {
 
-                out << i << " " << j << " " << k << " " weights.at(i).at(j).at(k) << endl;
+                out << i << " " << j << " " << k << " " << weights.at(i).at(j).at(k) << endl;
 
             }
 
@@ -1039,19 +1039,7 @@ void Neural_Network::print_to_text_file(int id) {
 
 }
 
-Neural_Network Neural_Network::retrieve_from_text_file(int id) {
-
-    string file_name = "tobE_" + id + ".txt";
-
-    ifstream in(file_name);
-
-
-
-}
-
 vector<double> Neural_Network::compute(vector<double> inputs) {
-
-    cout << "Computing" << endl;
 
     double weighted_sum;
 
@@ -1062,11 +1050,7 @@ vector<double> Neural_Network::compute(vector<double> inputs) {
 
             for(int j = 0; j < layer_sizes.at(i); j++) {
 
-                cout << "Relu: " << ReLU(inputs.at(j)) << endl;
-
                 activations.at(i).at(j) = ReLU(inputs.at(j));
-
-                cout << "Activate: " << activations.at(i).at(j);
 
             }
 
@@ -1092,7 +1076,5 @@ vector<double> Neural_Network::compute(vector<double> inputs) {
     }
 
     return activations.at(num_layers - 1);
-
-    cout << "Done Computing" << endl;
 
 };
