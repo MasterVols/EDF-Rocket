@@ -91,8 +91,9 @@ for a in range(10):
         # simply define thrust_rotation
         thrust_rotation = (0, 0)
 
+        num_cycles = 0
         with open(report_filename, "w") as report_file:
-            while position[2] > 0 and position[2] < 300:
+            while position[2] > 0 and position[2] < 300 and num_cycles < 2000:
                 # Send the current state to the C++ neural network program
                 input_data = ' '.join(map(str, position + rotation + velocity + list(thrust_rotation)))
                 output_data = subprocess.check_output([Executable], input=input_data, text=True).strip()
@@ -109,7 +110,7 @@ for a in range(10):
                 # Write the current state to the report file
                 report_line = f"Position: {position}, Rotation: {rotation}, Velocity: {velocity}, Thrust Rotation: {thrust_rotation}, Thrust Magnitude: {thrust_value}\n"
                 report_file.write(report_line)
-
+                num_cycles += 1
                 #time.sleep(DT)
 
             #Send final fitness:

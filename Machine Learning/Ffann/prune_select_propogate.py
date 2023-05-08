@@ -92,8 +92,9 @@ for a in range(10):
             # simply define thrust_rotation
             thrust_rotation = (0, 0)
 
+            num_cycles = 0
             with open(report_filename, "w") as report_file:
-                while position[2] > 0 and position[2] < 300 and position[1] < 1000 and position[1] > -1000 and position[0] < 1000 and position[0] > -1000:
+                while position[2] > 0 and position[2] < 300 and num_cycles < 2000:
                     # Send the current state to the C++ neural network program
                     input_data = ' '.join(map(str, position + rotation + velocity + list(thrust_rotation)))
                     output_data = subprocess.check_output([Executable], input=input_data, text=True).strip()
@@ -110,34 +111,29 @@ for a in range(10):
                     # Write the current state to the report file
                     report_line = f"Position: {position}, Rotation: {rotation}, Velocity: {velocity}, Thrust Rotation: {thrust_rotation}, Thrust Magnitude: {thrust_value}\n"
                     report_file.write(report_line)
-
+                    num_cycles += 1
                     #time.sleep(DT)
 
                 #Send final fitness:
-                if abs(rotation[0]) % 360 < landRotMaxAngle and abs(rotation[1]) % 360 < landRotMaxAngle and abs(velocity[2]) < landVeloMaxVelo:
+                if abs(rotation[0]) % 360 < landRotMaxAngle and abs(rotation[1]) % 360 < landRotMaxAngle and abs(velocity[2]) < landVeloMaxVelo and position[2] < 1:
+                    fitness = round(fitness)
                     fitness_line = f"fitness: {fitness + 1 * landUnderMaxConsMultiplier}\n"
                 else:
                     if abs(position[1]) < 10:
                         fitness += 10
                     if abs(position[0]) < 10:
                         fitness += 10
-                    
-                    if abs(velocity[2]) < landVeloMaxVelo:
-                        fitness += 100
-                    elif abs(velocity[2]) < landVeloMaxVelo * 2:
-                        fitness += 25
+                    if velocity[2] < 0:
+                        if abs(velocity[2] < landVeloMaxVelo):
+                            fitness += 1000
+                        else:
+                            fitness = fitness / abs(abs(velocity[2]) - landVeloMaxVelo)
                     else:
-                        fitness = fitness / (1 + abs(velocity[2]))
-                        
-                    if abs(position[0]) > 1000 or abs(position[1]) > 1000:
-                        fitness = 0
-                    
+                        fitness = 0; 
+                    if abs(position[0]) > 1000 or abs(position[1]) > 1000 or position[2] > 0.5:
+                        fitness = 0                
                     fitness = round(fitness)
-                    if position[0] > 1000 or position[0] < -1000 or position[1] > 1000 or position[1] < -1000:
-                        fitness = 0
                     fitness_line = f"fitness: {fitness}\n"
                 report_file.write(fitness_line)
         if __name__ == "__main__":
             main()
-
-

@@ -137,7 +137,7 @@ int main ()
             }
             for (k = k; k < pnets[i].size(); k++)
             {
-                float val = pnets[i][k] + ranf(-0.2,0.2);
+                float val = pnets[i][k] + ranf(-0.1,0.1);
                 if (val > 1) val = 1;
                 if (val < -1) val = -1;
                 outfile << " " << val;
