@@ -9,19 +9,16 @@ import os
 #   python --version to check
 #
 
-# MATTHEW's
-#Executable = "C:\\Users\\Matth\\OneDrive\\Documents\\GitHub\\EDF-Rocket\\Machine Learning\\PhysicsDriver\\test_driver.exe"
-#report_folder = "C:\\Users\\Matth\\OneDrive\\Documents\\GitHub\\EDF-Rocket\\Machine Learning\\PhysicsDriver\\reports"
-# PHILLIP's
-#Executable = "C:\\Users\\reed2\\OneDrive\\Desktop\\Github Repos\\EDF-Rocket\\Machine Learning\\Ffann\\main.exe"
-#report_folder = "C:\\Users\\reed2\\OneDrive\\Desktop\\Github Repos\\EDF-Rocket\Machine Learning\\Ffann\\ffann-reports"
-# SAGE's
-#Executable = "C:\\Users\\sgray\\OneDrive\\Documents\\GitHub\\EDF-Rocket\\Machine Learning\\PhysicsDriver\\test_driver.exe"
-#report_folder = "C:\\Users\\sgray\\OneDrive\\Documents\\GitHub\\EDF-Rocket\\Machine_Learning\\PhysicsDriver\\sage_reports"
-#C:\Users\sgray\OneDrive\Documents\GitHub\EDF-Rocket\Machine Learning\SG_brain
+# Description: This is a modified version of the physics engine that Matthew wrote. 
+# This engine calculates position, rotation, and velocity differently using equations 
+# that Ethan derived and also takes calculates values for acceleration, angular velocity, 
+# and angular acceleration. This is so that it can send these values to the tobE neural
+# network which requires all of these values to train. 
+
 # Ethan's
-Executable = "C:\\Users\\16159\\OneDrive\\Documents\\GitHub\\EDF-Rocket\\Machine Learning\\tobE\\run.exe"
-report_folder = "C:\\Users\\16159\\OneDrive\\Documents\\GitHub\\EDF-Rocket\\Machine Learning\\tobE\\PhysicsDriver\\ethan_reports"
+Executable = "C:\\Users\\Ethan\\Documents\\GitHub\\EDF-Rocket\\Machine Learning\\PhysicsDriver\\run.exe"
+Executable = "C:\\Users\\Ethan\\Documents\\GitHub\\EDF-Rocket\\Machine Learning\\PhysicsDriver\\train.exe"
+report_folder = "C:\\Users\\Ethan\\Documents\\GitHub\\EDF-Rocket\\Machine Learning\\PhysicsDriver\\ethan_reports"
 
 #TWEAKING VALUES:
 randomRotationOnStart = False

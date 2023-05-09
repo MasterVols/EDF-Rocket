@@ -4,6 +4,10 @@
 
 using namespace std;
 
+// This program creates a neural network of a defined size, 
+// randomizes its weights and biases, then sends the network 
+// to a text file to be called in another program. 
+
 Neural_Network* retrieve_from_text_file(int id) {
 
     int input;
@@ -75,7 +79,7 @@ Neural_Network* retrieve_from_text_file(int id) {
 
 int main() {
 
-    int input = 17;
+    int input = 18;
     int output = 3;
     vector<int> hidden = {16, 12, 8, 6};
 
@@ -84,12 +88,6 @@ int main() {
     tobE->randomize();
 
     tobE->print_to_text_file(001);
-
-    //Neural_Network *tobE2;
-
-    //tobE2 = retrieve_from_text_file(001);
-
-    //tobE2->print_to_text_file(002);
 
     return 0;
 

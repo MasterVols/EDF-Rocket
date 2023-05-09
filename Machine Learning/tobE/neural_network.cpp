@@ -9,6 +9,9 @@
 
 using namespace std;
 
+// Constructor: initializes variables storing the sizes of the
+// neural network then initializes the weights, biases, and
+// activations vectors to the proper sizes storing values of 0
 Neural_Network::Neural_Network(int input_layer_size, vector<int> hidden_layer_sizes, int output_layer_size) {
 
     num_hidden_layers = hidden_layer_sizes.size();
@@ -66,6 +69,8 @@ Neural_Network::Neural_Network(int input_layer_size, vector<int> hidden_layer_si
 
 Neural_Network::~Neural_Network() {};
 
+// randomizes the weights of the neural network and sets biases
+// equal to 0 
 void Neural_Network::randomize() {
 
     // randomize rand() seed
@@ -89,15 +94,10 @@ void Neural_Network::randomize() {
 
     }
 
-    // randomize biases
+    // set biases equal to 1.0
     for(long unsigned int i = 0; i < biases.size(); i++) {
 
         for(long unsigned int j = 0; j < biases.at(i).size(); j++) {
-
-            /*
-            r = rand();
-            biases.at(i).at(j) = r / RAND_MAX;
-            */
 
            biases.at(i).at(j) = 1.0;
 
@@ -119,8 +119,40 @@ void Neural_Network::change_bias(int i, int j, double b) {
 
 };
 
-void Neural_Network::train() {};
+void Neural_Network::update_weights(vector<vector<vector<double>>> dw) {
 
+    for(long unsigned int i = 0; i < weights.size(); i++) {
+
+        for(long unsigned int j = 0; j < weights.at(i).size(); j++) {
+
+            for(long unsigned int k = 0; k < weights.at(i).at(j).size(); k++) {
+
+                weights.at(i).at(j).at(k) -= dw.at(i).at(j).at(k);
+
+            }
+
+        }
+
+    }
+
+};
+
+void Neural_Network::update_biases(vector<vector<double>> db) {
+
+    for(long unsigned int i = 0; i < biases.size(); i++) {
+
+        for(long unsigned int j = 0; j < biases.at(i).size(); j++) {
+
+            biases.at(i).at(j) -= db.at(i).at(j);
+
+        }
+
+    }
+
+}
+
+// cost function returns a score based on improvement the rocket has made
+// over a timestep towards the landing site
 double Neural_Network::cost(double x, double x0) {
 
     double temp;
@@ -156,6 +188,10 @@ double Neural_Network::d_cost(double x, double x0) {
     }
 
 };
+
+// The following six functions take in a string that determines what to take
+// the derivative with respect to (thrust, phi_x, or phi_y) and a char to 
+// define the direction x, y, or z the variable is about
 
 double Neural_Network::ds(string wrt, char direction) {
 
@@ -565,6 +601,9 @@ double Neural_Network::d_alpha(string wrt, char direction) {
 
 };
 
+
+// ReLU is a training function that is equivalent to the larger value between
+// 0 and your input.
 double Neural_Network::ReLU(double z) {
 
     if(z > 0) {
@@ -593,9 +632,13 @@ double Neural_Network::d_ReLU(double z) {
 
 };
 
+// This function performs backpropagation specifically for this rocket neural network scenario. 
+// It does this be finding a dC/dw or dC/db for every weight or bias in the neural network
+// using the chain rule. It also calculates dC/dz as a middle value. The program returns a 3d vector of
+// weight changes and a 2d vector of bias changes which will be subtracted from the current weights and biases of the network.  
 pair<vector<vector<vector<double>>>, vector<vector<double>>> Neural_Network::rocket_backpropagate(vector<double> inputs) {
 
-    int num_changes = 14;
+    int num_changes = 15;
 
     // initial position
     sx1 = inputs.at(0);
@@ -659,18 +702,19 @@ pair<vector<vector<vector<double>>>, vector<vector<double>>> Neural_Network::roc
     phi_y = inputs.at(32);
 
     // change in time
-    delta_t = inputs.at(33);
+    //delta_t = inputs.at(33);
+    delta_t = 1/60;
 
     // mass 
-    m = inputs.at(34);
+    //m = inputs.at(34);
+    m = 1;
 
     // length of rocket
-    length = inputs.at(35);
+    //length = inputs.at(35);
+    length = 1;
 
     // moment of intertia
     I = m * pow(length, 2) / 12;
-
-
 
     // initialize vector for storing dC/dw
 
@@ -726,7 +770,7 @@ pair<vector<vector<vector<double>>>, vector<vector<double>>> Neural_Network::roc
 
             // find dz
 
-            if(i == 0) {
+            if(i == num_layers - 1) {
 
                 string wrt;
 
@@ -752,9 +796,9 @@ pair<vector<vector<vector<double>>>, vector<vector<double>>> Neural_Network::roc
 
                     // sx
                     if(k == 0) {
-                    
+
                         current_dz = d_cost(sx2, sx1) * ds(wrt, 'x') * d_ReLU(activations.at(i).at(j));
-                        dz.at(i).at(j) += current_dz;
+                        dz.at(i - 1).at(j) += current_dz;
 
                     }
 
@@ -762,7 +806,7 @@ pair<vector<vector<vector<double>>>, vector<vector<double>>> Neural_Network::roc
                     if(k == 1) {
 
                         current_dz = d_cost(sy2, sy1) * ds(wrt, 'y') * d_ReLU(activations.at(i).at(j));
-                        dz.at(i).at(j) += current_dz;
+                        dz.at(i - 1).at(j) += current_dz;
 
                     }
 
@@ -770,7 +814,7 @@ pair<vector<vector<vector<double>>>, vector<vector<double>>> Neural_Network::roc
                     if(k == 2) {
 
                         current_dz = d_cost(sz2, sz1) * ds(wrt, 'z') * d_ReLU(activations.at(i).at(j));
-                        dz.at(i).at(j) += current_dz;
+                        dz.at(i - 1).at(j) += current_dz;
 
                     }
 
@@ -778,7 +822,7 @@ pair<vector<vector<vector<double>>>, vector<vector<double>>> Neural_Network::roc
                     if(k == 3) {
 
                         current_dz = d_cost(vx2, vx1) * dv(wrt, 'x') * d_ReLU(activations.at(i).at(j));
-                        dz.at(i).at(j) += current_dz;
+                        dz.at(i - 1).at(j) += current_dz;
 
                     }
 
@@ -786,7 +830,7 @@ pair<vector<vector<vector<double>>>, vector<vector<double>>> Neural_Network::roc
                     if(k == 4) {
 
                         current_dz = d_cost(vy2, vy1) * dv(wrt, 'y') * d_ReLU(activations.at(i).at(j));
-                        dz.at(i).at(j) += current_dz;
+                        dz.at(i - 1).at(j) += current_dz;
 
                     }
 
@@ -794,7 +838,7 @@ pair<vector<vector<vector<double>>>, vector<vector<double>>> Neural_Network::roc
                     if(k == 5) {
 
                         current_dz = d_cost(vz2, vz1) * dv(wrt, 'z') * d_ReLU(activations.at(i).at(j));
-                        dz.at(i).at(j) += current_dz;
+                        dz.at(i - 1).at(j) += current_dz;
 
                     }
 
@@ -802,7 +846,7 @@ pair<vector<vector<vector<double>>>, vector<vector<double>>> Neural_Network::roc
                     if(k == 6) {
 
                         current_dz = d_cost(ax2, ax1) * da(wrt, 'x') * d_ReLU(activations.at(i).at(j));
-                        dz.at(i).at(j) += current_dz;
+                        dz.at(i - 1).at(j) += current_dz;
 
                     }
 
@@ -810,7 +854,7 @@ pair<vector<vector<vector<double>>>, vector<vector<double>>> Neural_Network::roc
                     if(k == 7) {
 
                         current_dz = d_cost(ay2, ay1) * da(wrt, 'y') * d_ReLU(activations.at(i).at(j));
-                        dz.at(i).at(j) += current_dz;
+                        dz.at(i - 1).at(j) += current_dz;
 
                     }
 
@@ -818,7 +862,7 @@ pair<vector<vector<vector<double>>>, vector<vector<double>>> Neural_Network::roc
                     if(k == 8) {
 
                         current_dz = d_cost(az2, az1) * da(wrt, 'z') * d_ReLU(activations.at(i).at(j));
-                        dz.at(i).at(j) += current_dz;
+                        dz.at(i - 1).at(j) += current_dz;
 
                     }
                     
@@ -826,7 +870,7 @@ pair<vector<vector<vector<double>>>, vector<vector<double>>> Neural_Network::roc
                     if(k == 9) {
 
                         current_dz = d_cost(theta_x2, theta_x1) * d_theta(wrt, 'x') * d_ReLU(activations.at(i).at(j));
-                        dz.at(i).at(j) += current_dz;
+                        dz.at(i - 1).at(j) += current_dz;
 
                     }
 
@@ -834,7 +878,7 @@ pair<vector<vector<vector<double>>>, vector<vector<double>>> Neural_Network::roc
                     if(k == 10) {
 
                         current_dz = d_cost(theta_y2, theta_y1) * d_theta(wrt, 'y') * d_ReLU(activations.at(i).at(j));
-                        dz.at(i).at(j) += current_dz;
+                        dz.at(i - 1).at(j) += current_dz;
 
                     }
 
@@ -842,7 +886,7 @@ pair<vector<vector<vector<double>>>, vector<vector<double>>> Neural_Network::roc
                     if(k == 11) {
 
                         current_dz = d_cost(omega_x2, omega_x1) * d_omega(wrt, 'x') * d_ReLU(activations.at(i).at(j));
-                        dz.at(i).at(j) += current_dz;
+                        dz.at(i - 1).at(j) += current_dz;
 
                     }
 
@@ -850,7 +894,7 @@ pair<vector<vector<vector<double>>>, vector<vector<double>>> Neural_Network::roc
                     if(k == 12) {
 
                         current_dz = d_cost(omega_y2, omega_y1) * d_omega(wrt, 'y') * d_ReLU(activations.at(i).at(j));
-                        dz.at(i).at(j) += current_dz;
+                        dz.at(i - 1).at(j) += current_dz;
 
                     }
 
@@ -858,7 +902,7 @@ pair<vector<vector<vector<double>>>, vector<vector<double>>> Neural_Network::roc
                     if(k == 13) {
 
                         current_dz = d_cost(alpha_x2, alpha_x1) * d_alpha(wrt, 'x') * d_ReLU(activations.at(i).at(j));
-                        dz.at(i).at(j) += current_dz;
+                        dz.at(i - 1).at(j) += current_dz;
 
                     }
 
@@ -866,7 +910,7 @@ pair<vector<vector<vector<double>>>, vector<vector<double>>> Neural_Network::roc
                     if(k == 14) {
 
                         current_dz = d_cost(alpha_y2, alpha_y1) * d_alpha(wrt, 'x') * d_ReLU(activations.at(i).at(j));
-                        dz.at(i).at(j) += current_dz;
+                        dz.at(i - 1).at(j) += current_dz;
 
                     }
 
@@ -876,8 +920,8 @@ pair<vector<vector<vector<double>>>, vector<vector<double>>> Neural_Network::roc
 
                 for(int k = 0; k < layer_sizes.at(i + 1); k++) {
 
-                    current_dz = dz.at(i + 1).at(k) * weights.at(i + 1).at(k).at(j) * d_ReLU(activations.at(i).at(j));
-                    dz.at(i).at(j) += current_dz;
+                    current_dz = dz.at(i).at(k) * weights.at(i).at(k).at(j) * d_ReLU(activations.at(i).at(j));
+                    dz.at(i - 1).at(j) += current_dz;
 
                 }
 
@@ -885,17 +929,17 @@ pair<vector<vector<vector<double>>>, vector<vector<double>>> Neural_Network::roc
 
             // dw
 
-            for(int k = 0; k < layer_sizes.at(i - 1); i++) {
+            for(int k = 0; k < layer_sizes.at(i - 1); k++) {
 
-                current_dw = dz.at(i).at(j) * activations.at(i - 1).at(k);
-                d_weights.at(i).at(j).at(k) = current_dw;
+                current_dw = dz.at(i - 1).at(j) * activations.at(i - 1).at(k);
+                d_weights.at(i - 1).at(j).at(k) = current_dw;
 
             }
 
             // db
 
-            current_db = dz.at(i).at(j);
-            d_biases.at(i).at(j) = current_db;
+            current_db = dz.at(i - 1).at(j);
+            d_biases.at(i - 1).at(j) = current_db;
 
         }
 
@@ -985,6 +1029,8 @@ void Neural_Network::print() {
 
 };
 
+// This function prints the size of the network, its weights, and its biases to a text file
+// so that the neural network can be retrieved later on. 
 void Neural_Network::print_to_text_file(int id) {
 
     string file_name = "tobE_" + to_string(id) + ".txt";
@@ -1039,6 +1085,9 @@ void Neural_Network::print_to_text_file(int id) {
 
 }
 
+// This function sends a vector of inputs to the input layer of the neural network.
+// Then it calculates the activations for every node in the network until it can determine the
+// activations of the output layer which it returns. 
 vector<double> Neural_Network::compute(vector<double> inputs) {
 
     double weighted_sum;

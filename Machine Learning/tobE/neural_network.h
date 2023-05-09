@@ -11,22 +11,24 @@ class Neural_Network {
     Neural_Network(int, std::vector<int>, int);
     ~Neural_Network();
 
-    void randomize();
-    void change_weight(int, int, int, double);
-    void change_bias(int, int, double);
-    void train();           // probably takes in training data
-    std::pair<std::vector<std::vector<std::vector<double>>>, std::vector<std::vector<double>>> rocket_backpropagate(std::vector<double>);
-    double ReLU(double);
-    double d_ReLU(double);
+    void randomize();                                   // randomizes weights and sets biases to 1
+    void change_weight(int, int, int, double);          // changes specific weight
+    void change_bias(int, int, double);                 // changes specific bias
+    void update_weights(std::vector<std::vector<std::vector<double>>>);     // modifies all weights based on negative gradient of cost function
+    void update_biases(std::vector<std::vector<double>>);                   // modifies all weights based on negative gradient of cost function
+    std::pair<std::vector<std::vector<std::vector<double>>>, std::vector<std::vector<double>>> rocket_backpropagate(std::vector<double>);   // performs backpropagation for this specific rocket neural network
+    double ReLU(double);    // ReLU function 
+    double d_ReLU(double);  // derivative of ReLU function 
     void print();
-    void print_to_text_file(int);
-    //Neural_Network retrieve_from_text_file(int);
-    std::vector<double> compute(std::vector<double>);
+    void print_to_text_file(int);   // prints a neural network into a text file
+    std::vector<double> compute(std::vector<double>);   // sends inputs to the neural network and calculates output
 
-    double cost(double, double);
-    double d_cost(double, double); // derivative
-    double ds(std::string, char); 
-    double dv(std::string, char);
+    double cost(double, double);            // cost function
+    double d_cost(double, double);          // derivative of cost function
+
+    // derivatives with respect to thrust, phi_x, or phi_y
+    double ds(std::string, char);           
+    double dv(std::string, char);           
     double da(std::string, char);
     double d_theta(std::string, char);
     double d_omega(std::string, char);
