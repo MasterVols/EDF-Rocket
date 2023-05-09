@@ -50,6 +50,10 @@ int main ()
 	}
     else
     {
+        // Handel the construction of the network.
+        // The network has 2 + num_hidden slices, and each slice has
+        // a certain number of neurons. For the input/output slices,
+        // this number is represented by the respective variable.
         num_input = 0;
         num_output = 0;
         num_hidden = 0;
@@ -61,6 +65,7 @@ int main ()
         for (int i = 0; i < num_hidden; i++) slices[i+1].resize(num_per_hidden);
         slices[1 + num_hidden].resize(num_output);
 
+        // Initialize 2D vector of neurons with default constructor
         for (unsigned int i = 0; i < slices.size(); i++)
         {
             for (unsigned int j = 0; j < slices[i].size(); j++)
@@ -68,7 +73,7 @@ int main ()
                 slices[i][j] = new neuron();
             }
         }
-        for (int i = 0; i < (2 + num_hidden); i++)
+        for (int i = 0; i < (2 + num_hidden); i++) // Each iteration represents a slice
         {
             int slice_height;
             int post_per_node;
@@ -88,14 +93,16 @@ int main ()
                 slice_height = num_output;
                 post_per_node = 0;
             }
-            for (int j = 0; j < slice_height; j++)
+            for (int j = 0; j < slice_height; j++) // Each iteration represents a neuron in a slice
             {
+                // For each node output the threshold, bias, and weights
                 float thresh_val;
                 float bias_val;
                 input_file >> thresh_val;
                 input_file >> bias_val;
                 slices[i][j]->threshold = thresh_val;
                 slices[i][j]->bias = bias_val;
+                slices[i][j]->state = bias_val; // set the initial state
                 vector<float> weights;
                 vector<neuron*> posts;
                 for (int k = 0; k < post_per_node; k++)
@@ -117,6 +124,7 @@ int main ()
         istringstream ist;
         ist.str(input);
 
+        // Adjust the input for each parameter. The goal is for each input to fall between -1 and 1
         for (int i = 0; i < num_input; i++)
         {
             float in;
@@ -127,6 +135,16 @@ int main ()
             }
             if (i > 2 && i < 6)
             {
+                if (in < 0)
+                {
+                    in = in * -1;
+                    in = in - (360 * (((int)in) / 360));
+                    in = in  * -1;
+                }
+                else
+                {
+                    in = in - (360 * (((int)in) / 360));
+                }
                 slices[0][i]->state = in / 360;
             }
             else
@@ -135,6 +153,9 @@ int main ()
             }
         }
         
+        // Propogate the signal trhough each singal.
+        // If a neuron does not fire, then its state is retained.
+        // If a neuron does fire, then its current state is set to its respective bias
         for (unsigned int i = 0; i < slices.size() - 1; i++)
         {
             for (unsigned int j = 0; j < slices[i].size(); j++)
@@ -150,6 +171,7 @@ int main ()
             }
         }
         
+        // Handel interpreting output
         for (unsigned int i = 0; i < slices[1+num_hidden].size(); i++)
         {
             if (i != 0) cout << " ";
@@ -181,6 +203,7 @@ int main ()
         }
         cout << endl;
     }
+    // clean up the vector of pointers
     for (unsigned int i = 0; i < slices.size(); i++)
     {
         for (unsigned int j = 0; j < slices[i].size(); j++) delete slices[i][j];
@@ -190,7 +213,7 @@ int main ()
 
 neuron::neuron()
 {
-    refractory = false;
+    refractory = false; // This is not used.
     state = 0;
     threshold = 0;
     bias = 0;

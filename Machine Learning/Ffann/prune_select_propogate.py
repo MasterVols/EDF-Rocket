@@ -124,7 +124,7 @@ for a in range(10):
                     if abs(position[0]) < 10:
                         fitness += 10
                     if velocity[2] < 0:
-                        if abs(velocity[2] < landVeloMaxVelo):
+                        if abs(velocity[2]) < landVeloMaxVelo:
                             fitness += 1000
                         else:
                             fitness = fitness / abs(abs(velocity[2]) - landVeloMaxVelo)

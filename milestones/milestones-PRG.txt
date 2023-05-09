@@ -1,5 +1,7 @@
 Name: Phillip Graham
 GITHUB REPO LINK: https://github.com/MasterVols/EDF-Rocket
+Project Description and Guide to use:
+
 TIME LOG-------------------------------------------------------
 Time Logged in Lab: 2 hours
 
@@ -59,8 +61,22 @@ Time Begun Outside of Lab: March 05, 2023 @ 12:00 am
 		I also attemtped to train the network, but
 		seem to have identified major flaws in how
 		we currently aproach training.
+	
+	- May, 06, 2023 3:00 pm to 6:00 pm
+		I made the final version of ffann, and
+		adjusted the training script to produce
+		the best results I can
 
-Total logged time: 14:00 
+	- May, 08, 2023 1:00 am to 1:30 am
+		I got started on creating documentation
+		for my code. I also fine-tuned the training
+		script. The training seems to have made some
+		progress, and the theory behind my aproach to 
+		random training seems to be successful.
+
+Total logged time: 43 hours, 40 minutes
+	I spent allot of time reading, but I do not consider that part of
+	my time because I ended up not using most of it.
 
 RUBRIC ----------------------------------------------------------------------------
 	
@@ -79,16 +95,3 @@ RUBRIC -------------------------------------------------------------------------
 	    contribution to the larger project
 
 
-TASKS  TO COMPLETE ----------------------------------------------------------------
-
-** This was mostly outlined inside Mathew’s milestones,
-   however, his were mostly made for the group, I will
-   outline some of my personal goals because I operate better
-   with individualized, and specified tasks.
-
-	- Figure out what Matthew has actually made
-	- Create the files necessary to interpret the outputs
-	  of our models (this will be done probably later)
-	- Begin the process of developing the rest of the
-	code that we will use to integrate our neural networks
-	into the larger project (this will be done later)
